@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchEmployees = async () => {
-      const response = await fetch('http://localhost:5000/api/dashboard');
+      const response = await fetch('https://flipkartb.algoapp.in/api/dashboard');
       const data = await response.json();
       setEmployees(data);
     };
@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   const handleDeleteAll = async () => {
     if (window.confirm('Are you sure you want to delete all records?')) {
-      const response = await fetch('http://localhost:5000/api/delete-all', {
+      const response = await fetch('https://flipkartb.algoapp.in/api/delete-all', {
         method: 'DELETE',
       });
       const data = await response.json();

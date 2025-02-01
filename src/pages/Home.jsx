@@ -14,7 +14,7 @@ const UploadPage = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('http://localhost:5000/api/bulk-upload', {
+    const response = await fetch('https://flipkartb.algoapp.in/api/bulk-upload', {
       method: 'POST',
       body: formData,
     });

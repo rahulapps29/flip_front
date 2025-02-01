@@ -6,7 +6,7 @@ const SendEmailPage = () => {
   const [message, setMessage] = useState('');
 
   const handleSendEmails = async () => {
-    const response = await fetch('http://localhost:5000/api/send-emails', {
+    const response = await fetch('https://flipkartb.algoapp.in/api/send-emails', {
       method: 'POST',
     });
     const data = await response.json();
