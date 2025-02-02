@@ -1,0 +1,104 @@
+/* General Page Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 2rem;
+    background-color: #f4f4f4;
+}
+
+.report-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+}
+
+.report-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Table Styling */
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem; /* Slightly reduce font size for better fit */
+    table-layout: auto; /* Let columns adjust to content */
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 8px 10px; /* Reduce padding for smaller screens */
+    border: 1px solid #ddd;
+    white-space: normal; /* Allow text wrapping */
+    word-wrap: break-word; /* Break long words onto the next line */
+}
+
+.responsive-table th {
+    background-color: #6c63ff;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem; /* Adjust font size for headers */
+}
+
+.responsive-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.responsive-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.responsive-table td {
+    font-size: 0.9rem; /* Default font size for cells */
+}
+
+/* Adjustments for Medium Screens */
+@media (max-width: 768px) {
+    .report-container {
+        padding: 15px;
+    }
+
+    .report-title {
+        font-size: 1.5rem;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+        padding: 6px 8px; /* Reduce padding further */
+        font-size: 0.85rem; /* Slightly smaller font size */
+    }
+}
+
+/* Adjustments for Small Screens */
+@media (max-width: 480px) {
+    .report-container {
+        padding: 10px;
+    }
+
+    .report-title {
+        font-size: 1.2rem;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+        padding: 4px 6px; /* Minimal padding for smaller devices */
+        font-size: 0.75rem; /* Smaller font size for compact display */
+    }
+
+    .responsive-table th {
+        font-size: 0.8rem; /* Slightly smaller header font size */
+    }
+}
+
+
+.icon-button {
+    font-size: 0.5rem;
+    margin:0.25rem
+}
