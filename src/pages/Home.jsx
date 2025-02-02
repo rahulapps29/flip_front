@@ -17,7 +17,7 @@ const UploadPage = () => {
     const token = localStorage.getItem('token'); // Get the token
   
     try {
-      const response = await fetch('http://flipkartb.algoapp.in/api/bulk-upload', {
+      const response = await fetch('https://flipkartb.algoapp.in/api/bulk-upload', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`, // Attach token

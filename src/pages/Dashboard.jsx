@@ -14,7 +14,7 @@ const Dashboard = () => {
     const fetchEmployees = async () => {
       try {
         const token = localStorage.getItem('token'); // Get the token from localStorage
-        const response = await axios.get('http://flipkartb.algoapp.in/api/dashboard', {
+        const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
           headers: {
             'Authorization': `Bearer ${token}`, // Attach token
           },
@@ -31,7 +31,7 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token'); // Get token from localStorage
-      await axios.delete(`http://flipkartb.algoapp.in/api/employee/${id}`, {
+      await axios.delete(`https://flipkartb.algoapp.in/api/employee/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`, // Attach token
         },
@@ -47,7 +47,7 @@ const Dashboard = () => {
     if (window.confirm('Are you sure you want to delete all employee records?')) {
       try {
         const token = localStorage.getItem('token'); // Get token from localStorage
-        await axios.delete('http://flipkartb.algoapp.in/api/delete-all', {
+        await axios.delete('https://flipkartb.algoapp.in/api/delete-all', {
           headers: {
             'Authorization': `Bearer ${token}`, // Attach token
           },
@@ -72,7 +72,7 @@ const Dashboard = () => {
   try {
     const token = localStorage.getItem('token'); // Get the token
     await axios.put(
-      `http://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
+      `https://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
       formData,
       {
         headers: {
@@ -101,7 +101,7 @@ const Dashboard = () => {
   const handleDownload = async () => {
     try {
       const token = localStorage.getItem('token'); // Get token from localStorage
-      const response = await axios.get('http://flipkartb.algoapp.in/api/dashboard', {
+      const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`, // Attach token
         },

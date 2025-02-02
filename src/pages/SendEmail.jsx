@@ -8,7 +8,7 @@ const SendEmailPage = () => {
   const handleSendEmails = async () => {
     try {
       const token = localStorage.getItem('token'); // Get the token
-      const response = await fetch('http://flipkartb.algoapp.in/api/send-emails', {
+      const response = await fetch('https://flipkartb.algoapp.in/api/send-emails', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`, // Attach token
