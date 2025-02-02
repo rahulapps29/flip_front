@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import './FormPage.css'; // Importing CSS for styling
+import './FormPage.css';
 
 const FormPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
 
-  const [formData, setFormData] = useState({ serialNumbers: [''] });
+  const [formData, setFormData] = useState({ laptopCondition: '', serialNumbers: [''] });
   const [employeeData, setEmployeeData] = useState({ name: '', email: '' });
   const [message, setMessage] = useState('');
 
@@ -44,13 +44,25 @@ const FormPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('https://flipkartb.algoapp.in/api/submit-form', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, formDetails: formData }),
-    });
-    const data = await response.json();
-    setMessage(data.message);
+
+    try {
+      const response = await fetch('https://flipkartb.algoapp.in/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token,
+          formDetails: {
+            laptopCondition: formData.laptopCondition,
+          },
+          serialNumber: formData.serialNumbers[0], // Sending the first serial number for reconciliation
+        }),
+      });
+
+      const data = await response.json();
+      setMessage(data.message);
+    } catch (error) {
+      setMessage('Error submitting the form.');
+    }
   };
 
   return (
@@ -123,6 +135,8 @@ const FormPage = () => {
       ) : (
         <div className="error-message">{message}</div>
       )}
+
+      {message && <div className="success-message">{message}</div>}
     </div>
   );
 };
