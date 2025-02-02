@@ -14,7 +14,7 @@ const FormPage = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await fetch(`https://flipkartb.algoapp.in/api/form?token=${token}`);
+        const response = await fetch(`http://flipkartb.algoapp.in/api/form?token=${token}`);
         const data = await response.json();
 
         if (data.email && data.name) {
@@ -46,7 +46,7 @@ const FormPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://flipkartb.algoapp.in/api/submit-form', {
+      const response = await fetch('http://flipkartb.algoapp.in/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

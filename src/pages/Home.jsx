@@ -11,17 +11,27 @@ const UploadPage = () => {
       setUploadMessage('Please select a file first.');
       return;
     }
+  
     const formData = new FormData();
     formData.append('file', file);
-
-    const response = await fetch('https://flipkartb.algoapp.in/api/bulk-upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const data = await response.json();
-    setUploadMessage(data.message);
+    const token = localStorage.getItem('token'); // Get the token
+  
+    try {
+      const response = await fetch('http://flipkartb.algoapp.in/api/bulk-upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Attach token
+        },
+        body: formData,
+      });
+  
+      const data = await response.json();
+      setUploadMessage(data.message);
+    } catch (error) {
+      console.error('Failed to upload file.');
+    }
   };
+  
 
   return (
     <div className="p-5">
@@ -33,7 +43,7 @@ const UploadPage = () => {
           onChange={(e) => setFile(e.target.files[0])}
           className="border p-2"
         />
-        <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded">
+        <button type="submit" className="bg-green-500 py-2 px-4 rounded">
           Upload
         </button>
       </form>

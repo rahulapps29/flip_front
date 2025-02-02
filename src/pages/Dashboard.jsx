@@ -13,7 +13,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard');
+        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const response = await axios.get('http://flipkartb.algoapp.in/api/dashboard', {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Attach token
+          },
+        });
         setEmployees(response.data);
       } catch (error) {
         console.error('Failed to fetch employee data.');
@@ -21,23 +26,36 @@ const Dashboard = () => {
     };
     fetchEmployees();
   }, []);
+  
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://flipkartb.algoapp.in/api/employee/${id}`);
+      const token = localStorage.getItem('token'); // Get token from localStorage
+      await axios.delete(`http://flipkartb.algoapp.in/api/employee/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Attach token
+        },
+      });
       setEmployees(employees.filter(emp => emp._id !== id));
     } catch (err) {
-      console.error('Failed to delete record.');
+      console.error('Failed to delete record:', err.response?.data || err);
+      alert(`Failed to delete record: ${err.response?.data?.message || 'Unknown error'}`);
     }
   };
-
+  
   const handleDeleteAll = async () => {
     if (window.confirm('Are you sure you want to delete all employee records?')) {
       try {
-        await axios.delete('https://flipkartb.algoapp.in/api/delete-all');
+        const token = localStorage.getItem('token'); // Get token from localStorage
+        await axios.delete('http://flipkartb.algoapp.in/api/delete-all', {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Attach token
+          },
+        });
         setEmployees([]);
       } catch (err) {
-        console.error('Failed to delete all records.');
+        console.error('Failed to delete all records:', err.response?.data || err);
+        alert(`Failed to delete all records: ${err.response?.data?.message || 'Unknown error'}`);
       }
     }
   };
@@ -50,18 +68,29 @@ const Dashboard = () => {
   };
 
   const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`https://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`, formData);
-      const updatedEmployees = employees.map(emp => 
-        emp._id === editingEmployee._id ? { ...emp, ...formData } : emp
-      );
-      setEmployees(updatedEmployees);
-      closeModal();
-    } catch (err) {
-      console.error('Failed to update the record.');
-    }
-  };
+  e.preventDefault();
+  try {
+    const token = localStorage.getItem('token'); // Get the token
+    await axios.put(
+      `http://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
+      formData,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Attach token
+        },
+      }
+    );
+
+    const updatedEmployees = employees.map(emp =>
+      emp._id === editingEmployee._id ? { ...emp, ...formData } : emp
+    );
+    setEmployees(updatedEmployees);
+    closeModal();
+  } catch (err) {
+    console.error('Failed to update the record:', err.response?.data || err);
+  }
+};
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -69,16 +98,29 @@ const Dashboard = () => {
     setFormData({});
   };
 
-  const handleDownload = () => {
-    const csvContent = "data:text/csv;charset=utf-8," +
-      employees.map(e => Object.values(e).join(",")).join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "employees.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Get token from localStorage
+      const response = await axios.get('http://flipkartb.algoapp.in/api/dashboard', {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Attach token
+        },
+      });
+  
+      const csvContent = "data:text/csv;charset=utf-8," +
+        response.data.map(e => Object.values(e).join(",")).join("\n");
+  
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "employees.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Failed to download data:', err.response?.data || err);
+      alert(`Failed to download data: ${err.response?.data?.message || 'Unknown error'}`);
+    }
   };
 
   const handleChange = (e) => {
