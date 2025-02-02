@@ -17,10 +17,8 @@ const FormPage = () => {
         const response = await fetch(`https://flipkartb.algoapp.in/api/form?token=${token}`);
         const data = await response.json();
 
-        if (data.employee) {
-          const email = data.employee.internetEmail;
-          const name = email.split('@')[0]; // Extract name from email
-          setEmployeeData({ name, email });
+        if (data.email && data.name) {
+          setEmployeeData({ name: data.name, email: data.email });
         } else {
           setMessage('Invalid or expired link.');
         }
