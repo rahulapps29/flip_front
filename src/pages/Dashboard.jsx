@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
+import './Dashboard.css';
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -42,7 +43,7 @@ const Dashboard = () => {
   };
 
   const handleEdit = (employee) => {
-    const { _id, __v, ...editableData } = employee; // Exclude _id and __v
+    const { _id, __v, ...editableData } = employee;
     setEditingEmployee(employee);
     setFormData(editableData);
     setIsModalOpen(true);
@@ -88,68 +89,71 @@ const Dashboard = () => {
   const allKeys = employees.length > 0 ? Object.keys(employees[0]).filter(key => key !== '__v' && key !== '_id') : [];
 
   return (
-    <div className="p-4 shadow-lg rounded-lg bg-white">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Employee Dashboard</h1>
-        <div>
-          <button onClick={handleDeleteAll} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1>Employee Dashboard</h1>
+        <div className="dashboard-actions">
+          <button onClick={handleDeleteAll} className="btn-delete-all">
             <FontAwesomeIcon icon={faTrash} /> Delete All
           </button>
-          <button onClick={handleDownload} className="bg-green-500 text-white px-4 py-2 rounded">
+          <button onClick={handleDownload} className="btn-download">
             <FontAwesomeIcon icon={faDownload} /> Download All
           </button>
         </div>
       </div>
 
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            {allKeys.map(key => (
-              <th key={key} className="border px-4 py-2">{key}</th>
-            ))}
-            <th className="border px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map(employee => (
-            <tr key={employee._id} className="text-center">
+      <div className="table-container">
+        <table className="dashboard-table">
+          <thead>
+            <tr>
               {allKeys.map(key => (
-                <td key={key} className="border px-4 py-2">{employee[key]}</td>
+                <th key={key}>{key}</th>
               ))}
-              <td className="border px-4 py-2">
-                <button onClick={() => handleEdit(employee)} className="text-blue-500 mr-2">
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button onClick={() => handleDelete(employee._id)} className="text-red-500">
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {employees.map(employee => (
+              <tr key={employee._id}>
+                {allKeys.map(key => (
+                  <td key={key}>{employee[key]}</td>
+                ))}
+                <td>
+                  <button onClick={() => handleEdit(employee)} className="btn-edit">
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button onClick={() => handleDelete(employee._id)} className="btn-delete">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <button className="text-red-500 text-2xl" onClick={closeModal}>&times;</button>
-            <h2 className="text-xl font-bold mb-4">Edit Employee</h2>
-            <form onSubmit={handleUpdate}>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal}>&times;</button>
+            <h2>Edit Employee</h2>
+            <form onSubmit={handleUpdate} className="modal-form">
               {allKeys.map(key => (
-                <div key={key} className="mb-2">
-                  <label className="block text-sm font-medium mb-1">{key}</label>
+                <div key={key} className="form-group">
+                  <label>{key}</label>
                   <input
                     type="text"
                     name={key}
                     value={formData[key] || ''}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
                     required
                   />
                 </div>
               ))}
-              <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded mr-2">Update</button>
-              <button type="button" className="bg-gray-500 text-white py-2 px-4 rounded" onClick={closeModal}>Cancel</button>
+              <div className="modal-buttons">
+                <button type="submit" className="btn-update">Update</button>
+                <button type="button" className="btn-cancel" onClick={closeModal}>Cancel</button>
+              </div>
             </form>
           </div>
         </div>

@@ -5,19 +5,21 @@ import UploadPage from './pages/Home';
 import SendEmailPage from './pages/SendEmail';
 import Dashboard from './pages/Dashboard';
 import FormPage from './pages/FormPage';
+import './App.css';
 
 const App = () => {
   return (
     <Router>
       <div>
-        <nav className="bg-gray-800 p-4 text-white">
-          <ul className="flex gap-4">
-            <li><Link to="/upload">Upload CSV</Link></li>
-            <li><Link to="/send-email">Send Emails</Link></li>
-            <li><Link to="/dashboard">Dashboard</Link></li>
+        <nav className="fancy-nav-bar">
+          <ul className="fancy-nav-list">
+            <li className="fancy-nav-item"><Link to="/upload" className="fancy-nav-link">Upload CSV</Link></li>
+            <li className="fancy-nav-item"><Link to="/send-email" className="fancy-nav-link">Send Emails</Link></li>
+            <li className="fancy-nav-item"><Link to="/dashboard" className="fancy-nav-link">Dashboard</Link></li>
           </ul>
         </nav>
         <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/upload" element={<UploadPage />} />
           <Route path="/send-email" element={<SendEmailPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -28,4 +30,4 @@ const App = () => {
   );
 };
 
-export default App; 
+export default App;

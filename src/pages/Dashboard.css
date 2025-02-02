@@ -1,104 +1,210 @@
-/* General Page Styles */
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 2rem;
-    background-color: #f4f4f4;
-}
+/* Dashboard Styles */
 
-.report-container {
-    max-width: 1200px;
-    margin: 20px auto;
+.dashboard-container {
+    /* max-width: 1200px; */
+    margin: 1rem auto;
     padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
-}
-
-.report-title {
+    background-color: var(--dashboard-bg, #ffffff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+  }
+  
+  .dashboard-header h1 {
     font-size: 2rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Table Styling */
-.responsive-table {
+    color: var(--dashboard-title, #333333);
+  }
+  
+  .dashboard-actions button {
+    background-color: #007cf0;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  
+  .dashboard-actions button:hover {
+    background-color: #005bb5;
+    transform: translateY(-3px);
+  }
+  
+  .btn-delete-all {
+    background-color: #e74c3c;
+  }
+  
+  .btn-delete-all:hover {
+    background-color: #c0392b;
+  }
+  
+  .btn-download {
+    background-color: #27ae60;
+  }
+  
+  .btn-download:hover {
+    background-color: #1e8449;
+  }
+  
+  .dashboard-table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
-    font-size: 0.95rem; /* Slightly reduce font size for better fit */
-    table-layout: auto; /* Let columns adjust to content */
-}
-
-.responsive-table th,
-.responsive-table td {
-    padding: 8px 10px; /* Reduce padding for smaller screens */
+    margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-table th, .dashboard-table td {
     border: 1px solid #ddd;
-    white-space: normal; /* Allow text wrapping */
-    word-wrap: break-word; /* Break long words onto the next line */
-}
-
-.responsive-table th {
-    background-color: #6c63ff;
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem; /* Adjust font size for headers */
-}
-
-.responsive-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.responsive-table tr:hover {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .dashboard-table th {
     background-color: #f1f1f1;
-}
-
-.responsive-table td {
-    font-size: 0.9rem; /* Default font size for cells */
-}
-
-/* Adjustments for Medium Screens */
-@media (max-width: 768px) {
-    .report-container {
-        padding: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .dashboard-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .dashboard-table tr:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s ease;
+  }
+  
+  .btn-edit:hover, .btn-delete:hover {
+    transform: scale(1.1);
+  }
+  
+  .btn-edit {
+    color: #3498db;
+  }
+  
+  .btn-delete {
+    color: #e74c3c;
+  }
+  
+  .modal-overlay {
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .modal-close {
+    float: right;
+    font-size: 24px;
+    color: #e74c3c;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #007cf0;
+    box-shadow: 0 0 5px rgba(0, 124, 240, 0.5);
+  }
+  
+  .btn-update, .btn-cancel {
+    background-color: #007cf0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+  }
+  
+  .btn-cancel {
+    background-color: #7f8c8d;
+  }
+  
+  .btn-update:hover {
+    background-color: #005bb5;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #616a6b;
+  }
+  
+  /* Responsive Design */
+  
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: center;
     }
-
-    .report-title {
-        font-size: 1.5rem;
+  
+    .dashboard-actions button {
+      width: 100%;
+      margin: 5px 0;
     }
-
-    .responsive-table th,
-    .responsive-table td {
-        padding: 6px 8px; /* Reduce padding further */
-        font-size: 0.85rem; /* Slightly smaller font size */
+  
+    .dashboard-table th, .dashboard-table td {
+      padding: 8px;
+      font-size: 14px;
     }
-}
-
-/* Adjustments for Small Screens */
-@media (max-width: 480px) {
-    .report-container {
-        padding: 10px;
+  
+    .modal-content {
+      width: 95%;
     }
-
-    .report-title {
-        font-size: 1.2rem;
-    }
-
-    .responsive-table th,
-    .responsive-table td {
-        padding: 4px 6px; /* Minimal padding for smaller devices */
-        font-size: 0.75rem; /* Smaller font size for compact display */
-    }
-
-    .responsive-table th {
-        font-size: 0.8rem; /* Slightly smaller header font size */
-    }
-}
-
-
-.icon-button {
-    font-size: 0.5rem;
-    margin:0.25rem
-}
+  }
+  
