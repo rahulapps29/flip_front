@@ -133,7 +133,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Employee Dashboard</h1>
+        <h1>Asset Compliance Dashboard</h1>
         <div className="dashboard-actions">
           <button onClick={handleDeleteAll} className="btn-delete-all">
             <FontAwesomeIcon icon={faTrash} /> Delete All
