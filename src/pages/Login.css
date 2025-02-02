@@ -1,83 +1,149 @@
-/* ========== Login Container ========== */
 .login-container {
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
-  transition: transform 0.3s ease;
+  position: relative;
+  background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff7eb3);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.login-container:hover {
-  transform: translateY(-5px); /* Subtle hover effect */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 75px;
+  height: auto;
 }
 
-/* ========== Heading ========== */
-.login-container h2 {
+.card {
+  width: 37%;
+  max-width: 550px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 20px;
-  font-weight: bold;
 }
 
-/* ========== Input Fields ========== */
-.login-container input {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
-}
-
-.login-container input:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 8px rgba(25, 118, 210, 0.4);
-}
-
-/* ========== Button Styles ========== */
-.login-container button {
-  width: 100%;
-  background-color: #1976d2;
+h1 {
   color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
+  font-weight: 400;
 }
 
-.login-container button:hover {
-  background-color: #1565c0;
-  transform: scale(1.03); /* Slight scaling on hover */
+.bold {
+  font-weight: 600;
+  color: #fe5370;
 }
 
-/* ========== Error Message ========== */
-.login-container p {
-  color: #d32f2f;
-  background: #ffebee;
-  padding: 10px;
+h6 {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 25px;
+}
+
+p {
+  color: white;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  line-height: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.separator {
+  width: 73%;
+  height: 4px;
+  background-color: #fe5370;
   border-radius: 6px;
-  text-align: center;
-  margin: 10px 0;
-  font-weight: bold;
+  margin: 10px auto 25px;
+  position: relative;
 }
 
-/* ========== Responsive Design ========== */
-@media (max-width: 480px) {
-  .login-container {
-    padding: 20px;
-    width: 90%;
+.dot {
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.dot-1 { right: -8px; }
+.dot-2 { right: -16px; }
+.dot-3 { right: -24px; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 3px;
+  border: 1px solid #ff758c;
+  transition: border-color 0.3s;
+  margin-bottom: 5px;
+}
+
+.form-group input::placeholder {
+  color: #ccc;
+}
+
+.form-group input:focus {
+  border: 1px solid #ff758c;
+  outline: none;
+}
+
+.login-button {
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  width: 100%;
+  background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff7eb3);
+  border-radius: 3px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: background 0.4s ease-in-out, box-shadow 0.4s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #ff758c, #ff7eb3, #ff758c);
+  box-shadow: 0px 4px 15px rgba(255, 77, 79, 0.6);
+  transform: scale(1.05);
+}
+
+.error-message {
+  color: white;
+  background: rgba(255, 77, 79, 0.7);
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+      top: 10px;
+      left: 10px;
+      width: 50px;
   }
 
-  .login-container h2 {
-    font-size: 1.5rem;
+  .card {
+      width: 90%;
+      left: 5%;
+      bottom: 20px;
   }
 }
