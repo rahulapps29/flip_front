@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchEmployees = async () => {
-      try {
+      try {http://
         const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard');
         setEmployees(response.data);
       } catch (error) {
