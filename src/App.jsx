@@ -4,33 +4,25 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import UploadPage from './pages/Home';
 import SendEmailPage from './pages/SendEmail';
 import Dashboard from './pages/Dashboard';
-import './App.css';
+import FormPage from './pages/FormPage';
 
 const App = () => {
   return (
     <Router>
-      <div className="app-container">
-        <header className="navbar-wrapper">
-          <nav className="navbar">
-            <div className="nav-brand">
-              <Link to="/upload">My App</Link>
-            </div>
-            <ul className="nav-links">
-              <li><Link to="/upload">Upload CSV</Link></li>
-              <li><Link to="/send-email">Send Emails</Link></li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
-            </ul>
-          </nav>
-        </header>
-
-        <main className="content">
-          <Routes>
-            <Route path="/upload" element={<UploadPage />} />
-            <Route path="/send-email" element={<SendEmailPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<Navigate to="/upload" replace />} />
-          </Routes>
-        </main>
+      <div>
+        <nav className="bg-gray-800 p-4 text-white">
+          <ul className="flex gap-4">
+            <li><Link to="/upload">Upload CSV</Link></li>
+            <li><Link to="/send-email">Send Emails</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route path="/upload" element={<UploadPage />} />
+          <Route path="/send-email" element={<SendEmailPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/form" element={<FormPage />} />
+        </Routes>
       </div>
     </Router>
   );
