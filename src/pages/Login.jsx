@@ -32,8 +32,10 @@ const Login = () => {
   };
 
   return (
+    <div className="login-page">
     <div className="login-container">
       <h2>Login</h2>
+      <h3>Asset Compliance Console</h3>
       {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
         <input
@@ -53,6 +55,8 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
     </div>
+  </div>
+  
   );
 };
 
