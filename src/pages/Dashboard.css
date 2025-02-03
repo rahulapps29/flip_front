@@ -91,6 +91,9 @@
   color: #37474f; /* ✅ Professional grayish-blue */
   text-transform: uppercase;
   font-weight: bold;
+  position: sticky; /* Make header sticky */
+  top: 0; /* Stick it to the top */
+  z-index: 2; /* Ensure it stays on top of table content */
 }
 
 .dashboard-table tr:nth-child(even) {
