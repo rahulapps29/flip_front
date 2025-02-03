@@ -13,10 +13,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const token = localStorage.getItem('token');
         const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
           headers: {
-            'Authorization': `Bearer ${token}`, // Attach token
+            'Authorization': `Bearer ${token}`,
           },
         });
         setEmployees(response.data);
@@ -26,14 +26,13 @@ const Dashboard = () => {
     };
     fetchEmployees();
   }, []);
-  
 
   const handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem('token'); // Get token from localStorage
+      const token = localStorage.getItem('token');
       await axios.delete(`https://flipkartb.algoapp.in/api/employee/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
+          'Authorization': `Bearer ${token}`,
         },
       });
       setEmployees(employees.filter(emp => emp._id !== id));
@@ -42,14 +41,14 @@ const Dashboard = () => {
       alert(`Failed to delete record: ${err.response?.data?.message || 'Unknown error'}`);
     }
   };
-  
+
   const handleDeleteAll = async () => {
     if (window.confirm('Are you sure you want to delete all employee records?')) {
       try {
-        const token = localStorage.getItem('token'); // Get token from localStorage
+        const token = localStorage.getItem('token');
         await axios.delete('https://flipkartb.algoapp.in/api/delete-all', {
           headers: {
-            'Authorization': `Bearer ${token}`, // Attach token
+            'Authorization': `Bearer ${token}`,
           },
         });
         setEmployees([]);
@@ -68,29 +67,28 @@ const Dashboard = () => {
   };
 
   const handleUpdate = async (e) => {
-  e.preventDefault();
-  try {
-    const token = localStorage.getItem('token'); // Get the token
-    await axios.put(
-      `https://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
-      formData,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
-        },
-      }
-    );
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `https://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
+        formData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
 
-    const updatedEmployees = employees.map(emp =>
-      emp._id === editingEmployee._id ? { ...emp, ...formData } : emp
-    );
-    setEmployees(updatedEmployees);
-    closeModal();
-  } catch (err) {
-    console.error('Failed to update the record:', err.response?.data || err);
-  }
-};
-
+      const updatedEmployees = employees.map(emp =>
+        emp._id === editingEmployee._id ? { ...emp, ...formData } : emp
+      );
+      setEmployees(updatedEmployees);
+      closeModal();
+    } catch (err) {
+      console.error('Failed to update the record:', err.response?.data || err);
+    }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -100,17 +98,16 @@ const Dashboard = () => {
 
   const handleDownload = async () => {
     try {
-      const token = localStorage.getItem('token'); // Get token from localStorage
+      const token = localStorage.getItem('token');
       const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
         headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
+          'Authorization': `Bearer ${token}`,
         },
       });
 
-      const data = response.data.map(({ _id, __v, ...rest }) => rest); // Remove _id and __v
-      const headers = Object.keys(data[0]); // Extract headers
+      const data = response.data.map(({ _id, __v, ...rest }) => rest);
+      const headers = Object.keys(data[0]);
 
-      // Create CSV content with headers
       const csvContent = "data:text/csv;charset=utf-8," +
         [headers.join(","), ...data.map(e => headers.map(header => e[header]).join(","))].join("\n");
 
@@ -132,8 +129,6 @@ const Dashboard = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const allKeys = employees.length > 0 ? Object.keys(employees[0]).filter(key => key !== '__v' && key !== '_id') : [];
-
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -152,18 +147,41 @@ const Dashboard = () => {
         <table className="dashboard-table">
           <thead>
             <tr>
-              {allKeys.map(key => (
-                <th key={key}>{key}</th>
-              ))}
+              <th>Email</th>
+              <th>Assets</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {employees.map(employee => (
               <tr key={employee._id}>
-                {allKeys.map(key => (
-                  <td key={key}>{employee[key]}</td>
-                ))}
+                <td>{employee.internetEmail}</td>
+                <td>
+                  {employee.assets && employee.assets.length > 0 ? (
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Asset ID</th>
+                          <th>Serial Number</th>
+                          <th>Model</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {employee.assets.map((asset, index) => (
+                          <tr key={index}>
+                            <td>{asset.assetId}</td>
+                            <td>{asset.serialNumber}</td>
+                            <td>{asset.model || 'N/A'}</td>
+                            <td>{asset.status || 'Unknown'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    'No Assets'
+                  )}
+                </td>
                 <td>
                   <button onClick={() => handleEdit(employee)} className="btn-edit">
                     <FontAwesomeIcon icon={faEdit} />
@@ -184,18 +202,16 @@ const Dashboard = () => {
             <button className="modal-close" onClick={closeModal}>&times;</button>
             <h2>Edit Employee</h2>
             <form onSubmit={handleUpdate} className="modal-form">
-              {allKeys.map(key => (
-                <div key={key} className="form-group">
-                  <label>{key}</label>
-                  <input
-                    type="text"
-                    name={key}
-                    value={formData[key] || ''}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              ))}
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="text"
+                  name="internetEmail"
+                  value={formData.internetEmail || ''}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
               <div className="modal-buttons">
                 <button type="submit" className="btn-update">Update</button>
                 <button type="button" className="btn-cancel" onClick={closeModal}>Cancel</button>
