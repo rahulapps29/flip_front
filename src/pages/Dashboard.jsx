@@ -106,10 +106,14 @@ const Dashboard = () => {
           'Authorization': `Bearer ${token}`, // Attach token
         },
       });
-  
+
+      const data = response.data.map(({ _id, __v, ...rest }) => rest); // Remove _id and __v
+      const headers = Object.keys(data[0]); // Extract headers
+
+      // Create CSV content with headers
       const csvContent = "data:text/csv;charset=utf-8," +
-        response.data.map(e => Object.values(e).join(",")).join("\n");
-  
+        [headers.join(","), ...data.map(e => headers.map(header => e[header]).join(","))].join("\n");
+
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
