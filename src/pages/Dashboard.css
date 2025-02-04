@@ -1,257 +1,383 @@
-/* ================= Full-Screen Dashboard ================= */
-.dashboard-container {
-  width: 100%;
-  padding: 20px;
-  background-color: #f4f6f8; /* ✅ Light gray background */
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow: auto; /* ✅ Allow page scroll */
-  position: relative; /* Keeps layout intact while allowing scroll */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
 }
 
-/* ================= Header Styles ================= */
+.dashboard-container {
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #e0e0e0;
+  padding: 15px 0;
+  border-bottom: 2px solid #1976d2;
 }
 
 .dashboard-header h1 {
-  font-size: 2rem;
-  color: #2c3e50; /* ✅ Professional dark blue-gray */
-  font-weight: bold;
-  margin: 0;
-}
-
-/* ================= Action Buttons ================= */
-.dashboard-actions button {
-  background-color: #1976d2; /* ✅ Subtle blue */
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-  font-weight: bold;
-}
-
-.dashboard-actions button:hover {
-  background-color: #1565c0; /* ✅ Darker blue on hover */
-  transform: translateY(-2px);
-}
-
-.btn-delete-all {
-  background-color: #d32f2f; /* ✅ Soft red */
-}
-
-.btn-delete-all:hover {
-  background-color: #b71c1c; /* ✅ Darker red */
-}
-
-.btn-download {
-  background-color: #388e3c; /* ✅ Soft green */
-}
-
-.btn-download:hover {
-  background-color: #2e7d32; /* ✅ Darker green */
-}
-
-/* ================= Table Styling ================= */
-.table-container {
-  width: 100%;
-  overflow: auto; /* Allow both X and Y scroll */
-  max-height: 70vh; /* Set max height for the table container */
-  margin-top: 15px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-.dashboard-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff;
-}
-
-.dashboard-table th,
-.dashboard-table td {
-  padding: 14px;
-  /* text-align: center; */
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.dashboard-table th {
-  background-color: #f0f4f8; /* ✅ Light subtle header */
-  color: #37474f; /* ✅ Professional grayish-blue */
-  text-transform: uppercase;
-  font-weight: bold;
-  position: sticky; /* Make header sticky */
-  top: 0; /* Stick it to the top */
-  z-index: 2; /* Ensure it stays on top of table content */
-}
-
-.dashboard-table tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-.dashboard-table tr:hover {
-  background-color: #f1f8ff; /* ✅ Subtle blue hover */
-  transition: background-color 0.3s ease;
-}
-
-/* ================= Action Buttons in Table ================= */
-.btn-edit,
-.btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  transition: transform 0.2s ease, color 0.3s ease;
-  font-size: 1.1rem;
-}
-
-.btn-edit:hover {
-  transform: scale(1.2);
+  font-size: 24px;
   color: #1976d2;
 }
 
-.btn-delete:hover {
-  transform: scale(1.2);
-  color: #d32f2f;
+.dashboard-actions button {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
 }
 
-/* ================= Modal Styles ================= */
+.dashboard-actions button:hover {
+  background-color: #135ba1;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  background: #e3f2fd;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 1rem;
+  background: transparent;
+  margin-left: 10px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.employee-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.employee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.employee-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #1976d2;
+}
+
+.btn-delete {
+  position: absolute;
+  top: 50%;               /* Move to the middle vertically */
+  right: 10px;            /* Align to the right */
+  transform: translateY(-50%); /* Perfect vertical center */
+  width: 35px;
+  height: 35px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: translateY(-50%) scale(1.1); /* Slight zoom effect on hover */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.page-btn {
+  padding: 10px 14px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.page-btn:hover,
+.page-btn.active {
+  background: #135ba1;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: auto; /* ✅ Make modal scrollable if content overflows */
+  padding: 10px;
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
-  width: 100%;
-  max-height: 90vh; /* ✅ Limit modal height */
-  overflow: auto; /* ✅ Enable scroll inside modal if needed */
-  animation: fadeIn 0.4s ease;
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 15px;
+  max-width: 90%;
+  width: 800px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 90vh;
+  animation: fadeIn 0.4s ease-in-out;
+  position: relative;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
 .modal-close {
-  float: right;
-  font-size: 24px;
-  color: #d32f2f;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: #d32f2f;
+  color: white;
   border: none;
-  background: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .modal-close:hover {
-  transform: scale(1.2);
+  background: #b71c1c;
 }
 
-/* ================= Form Styles ================= */
-.form-group {
+.modal-content h2 {
   margin-bottom: 15px;
+  text-align: center;
+  color: #1976d2;
+  font-size: 24px;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 10px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
+/* Improved Table Styling */
+/* Container to make the table scrollable if it overflows */
+.tableContainer {
+  overflow-x: auto;
+  max-width: 100%;
 }
 
-.form-group input {
+/* Improved Table Styling */
+/* Container to handle overflow and enable horizontal scrolling */
+.tableContainer {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Clean Table Design */
+table {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s ease;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fafafa;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  table-layout: auto; /* Adjust column widths dynamically */
 }
 
-.form-group input:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
-}
-
-/* ================= Modal Buttons ================= */
-.btn-update,
-.btn-cancel {
+/* Header Styling */
+th {
   background-color: #1976d2;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-right: 10px;
+  padding: 12px 15px;
+  text-align: center;
   font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap; /* Prevent text wrapping */
+  min-width: 150px; /* Minimum width for each column */
+  border: 1px solid #ddd;
 }
 
-.btn-cancel {
-  background-color: #757575; /* ✅ Subtle gray */
+/* Data Cell Styling */
+td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word; /* Ensure long words wrap */
+  white-space: normal; /* Allow text wrapping */
+  min-width: 150px; /* Match the header's min-width */
+  vertical-align: top;
+  background-color: #f9f9f9;
+}
+
+/* Input Fields in Cells */
+td input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  padding: 5px;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+/* Focus Effect for Input Fields */
+td input:focus {
+  background: #fff;
+  border: 1px solid #1976d2;
+  border-radius: 4px;
+  padding: 5px 8px;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Alternating Row Colors */
+tr:nth-child(even) {
+  background-color: #f2f9ff;
+}
+
+/* Hover Effect */
+tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.3s ease;
+}
+
+/* Modal Header */
+.modal-content h2 {
+  margin-bottom: 15px;
+  text-align: center;
+  color: #1976d2;
+  font-size: 24px;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 10px;
+}
+
+.btn-edit {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  background: #1976d2; /* Default color when not active */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-edit:hover {
+  background: #135ba1; /* Hover color when not active */
+}
+
+.btn-edit.active {
+  background: #4caf50; /* Active color when edit mode is enabled */
+}
+
+.btn-edit.active:hover {
+  background: #388e3c; /* Hover color when active */
+}
+
+
+.btn-update {
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
 }
 
 .btn-update:hover {
-  background-color: #1565c0;
+  background-color: #388e3c;
 }
 
-.btn-cancel:hover {
-  background-color: #616161;
+
+/* Modal Close Button */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-/* ================= Responsive Design ================= */
+.modal-close:hover {
+  background: #b71c1c;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .dashboard-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .dashboard-actions button {
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  .dashboard-table th,
-  .dashboard-table td {
-    padding: 10px;
-    font-size: 14px;
+  th,
+  td {
+    min-width: 120px;
+    padding: 8px;
   }
 
   .modal-content {
-    width: 95%;
+    padding: 15px;
+    max-width: 95%;
   }
 }

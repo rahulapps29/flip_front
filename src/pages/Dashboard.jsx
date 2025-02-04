@@ -1,206 +1,235 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faDownload, faSearch, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState(null);
   const [formData, setFormData] = useState({});
+  const [editingEmployee, setEditingEmployee] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const fetchEmployees = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setEmployees(response.data);
+    } catch (error) {
+      console.error('Failed to fetch employee data.', error);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
-        const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
-          headers: {
-            'Authorization': `Bearer ${token}`, // Attach token
-          },
-        });
-        setEmployees(response.data);
-      } catch (error) {
-        console.error('Failed to fetch employee data.');
-      }
-    };
     fetchEmployees();
-  }, []);
-  
+  }, [fetchEmployees]);
 
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem('token'); // Get token from localStorage
-      await axios.delete(`https://flipkartb.algoapp.in/api/employee/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
-        },
-      });
-      setEmployees(employees.filter(emp => emp._id !== id));
-    } catch (err) {
-      console.error('Failed to delete record:', err.response?.data || err);
-      alert(`Failed to delete record: ${err.response?.data?.message || 'Unknown error'}`);
+  const handleDelete = async (id, event) => {
+    event.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this employee?')) {
+      try {
+        const token = localStorage.getItem('token');
+        await axios.delete(`https://flipkartb.algoapp.in/api/employee/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setEmployees((prev) => prev.filter((emp) => emp._id !== id));
+      } catch (err) {
+        console.error('Failed to delete record:', err);
+      }
     }
   };
-  
+
   const handleDeleteAll = async () => {
-    if (window.confirm('Are you sure you want to delete all employee records?')) {
+    if (window.confirm('⚠️ Are you sure you want to delete ALL employee records?')) {
       try {
-        const token = localStorage.getItem('token'); // Get token from localStorage
+        const token = localStorage.getItem('token');
         await axios.delete('https://flipkartb.algoapp.in/api/delete-all', {
-          headers: {
-            'Authorization': `Bearer ${token}`, // Attach token
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setEmployees([]);
       } catch (err) {
-        console.error('Failed to delete all records:', err.response?.data || err);
-        alert(`Failed to delete all records: ${err.response?.data?.message || 'Unknown error'}`);
+        console.error('Failed to delete all records:', err);
       }
     }
-  };
-
-  const handleEdit = (employee) => {
-    const { _id, __v, ...editableData } = employee;
-    setEditingEmployee(employee);
-    setFormData(editableData);
-    setIsModalOpen(true);
-  };
-
-  const handleUpdate = async (e) => {
-  e.preventDefault();
-  try {
-    const token = localStorage.getItem('token'); // Get the token
-    await axios.put(
-      `https://flipkartb.algoapp.in/api/employee/${editingEmployee._id}`,
-      formData,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
-        },
-      }
-    );
-
-    const updatedEmployees = employees.map(emp =>
-      emp._id === editingEmployee._id ? { ...emp, ...formData } : emp
-    );
-    setEmployees(updatedEmployees);
-    closeModal();
-  } catch (err) {
-    console.error('Failed to update the record:', err.response?.data || err);
-  }
-};
-
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditingEmployee(null);
-    setFormData({});
   };
 
   const handleDownload = async () => {
     try {
-      const token = localStorage.getItem('token'); // Get token from localStorage
+      const token = localStorage.getItem('token');
       const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Attach token
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      const data = response.data.map(({ _id, __v, ...rest }) => rest); // Remove _id and __v
-      const headers = Object.keys(data[0]); // Extract headers
+      const data = response.data.map(({ _id, __v, ...rest }) => rest);
+      const headers = Object.keys(data[0]);
 
-      // Create CSV content with headers
-      const csvContent = "data:text/csv;charset=utf-8," +
-        [headers.join(","), ...data.map(e => headers.map(header => e[header]).join(","))].join("\n");
+      const csvContent =
+        'data:text/csv;charset=utf-8,' +
+        [headers.join(','), ...data.map((e) =>
+          headers
+            .map((header) =>
+              Array.isArray(e[header])
+                ? e[header].map((item) => (typeof item === 'object' ? Object.values(item).join(' | ') : item)).join('; ')
+                : e[header]
+            )
+            .join(',')
+        )].join('\n');
 
       const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "employees.csv");
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'employees.csv');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      console.error('Failed to download data:', err.response?.data || err);
-      alert(`Failed to download data: ${err.response?.data?.message || 'Unknown error'}`);
+      console.error('Failed to download data:', err);
     }
   };
+
+  const handleView = (employee) => {
+    setSelectedEmployee(employee);
+    setFormData(employee);
+    setIsModalOpen(true);
+  };
+
+  const toggleEditMode = () => {
+    if (selectedEmployee) {
+      setEditingEmployee(selectedEmployee); // Ensure the editingEmployee is set
+    }
+    setIsEditMode((prevMode) => !prevMode);
+  };
+  
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `https://flipkartb.algoapp.in/api/employee/${selectedEmployee._id}`, // Use selectedEmployee ID
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      const updatedEmployees = employees.map(emp =>
+        emp._id === selectedEmployee._id ? { ...emp, ...formData } : emp
+      );
+      setEmployees(updatedEmployees);
+      closeModal();
+    } catch (err) {
+      console.error('Failed to update the record:', err.response?.data || err);
+    }
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const allKeys = employees.length > 0 ? Object.keys(employees[0]).filter(key => key !== '__v' && key !== '_id') : [];
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEmployee(null);
+    setEditingEmployee(null);
+    setFormData({});
+    setIsEditMode(false);
+  };
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Asset Compliance Dashboard</h1>
+        <h1>Employee Asset Dashboard</h1>
         <div className="dashboard-actions">
           <button onClick={handleDeleteAll} className="btn-delete-all">
             <FontAwesomeIcon icon={faTrash} /> Delete All
           </button>
           <button onClick={handleDownload} className="btn-download">
-            <FontAwesomeIcon icon={faDownload} /> Download All
+            <FontAwesomeIcon icon={faDownload} /> Download CSV
           </button>
         </div>
       </div>
 
-      <div className="table-container">
-        <table className="dashboard-table">
-          <thead>
-            <tr>
-              {allKeys.map(key => (
-                <th key={key}>{key}</th>
-              ))}
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map(employee => (
-              <tr key={employee._id}>
-                {allKeys.map(key => (
-                  <td key={key}>{employee[key]}</td>
-                ))}
-                <td>
-                  <button onClick={() => handleEdit(employee)} className="btn-edit">
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                  <button onClick={() => handleDelete(employee._id)} className="btn-delete">
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="search-bar">
+        <FontAwesomeIcon icon={faSearch} />
+        <input
+          type="text"
+          placeholder="Search by Email ID..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
-      {isModalOpen && (
+      <div className="cards-container">
+        {employees
+          .filter((emp) =>
+            emp.internetEmail.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((employee) => (
+            <div key={employee._id} className="employee-card" onClick={() => handleView(employee)}>
+              <h3>{employee.internetEmail}</h3>
+              <button
+                className="btn-delete"
+                onClick={(e) => handleDelete(employee._id, e)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
+          ))}
+      </div>
+
+      {isModalOpen && selectedEmployee && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="modal-close" onClick={closeModal}>&times;</button>
-            <h2>Edit Employee</h2>
-            <form onSubmit={handleUpdate} className="modal-form">
-              {allKeys.map(key => (
-                <div key={key} className="form-group">
-                  <label>{key}</label>
-                  <input
-                    type="text"
-                    name={key}
-                    value={formData[key] || ''}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              ))}
-              <div className="modal-buttons">
-                <button type="submit" className="btn-update">Update</button>
-                <button type="button" className="btn-cancel" onClick={closeModal}>Cancel</button>
-              </div>
-            </form>
+            <button className={`btn-edit ${isEditMode ? 'active' : ''}`} onClick={toggleEditMode}>
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
+            <button className="modal-close" onClick={closeModal}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <h2>Employee: {selectedEmployee.internetEmail}</h2>
+            <div className='tableContainer'>
+              <table>
+                <thead>
+                  <tr>
+                    {Object.keys(selectedEmployee.assets[0])
+                      .filter((key) => key !== '_id' && key !== 'timestamp')
+                      .map((key) => (
+                        <th key={key}>{key.replace(/([A-Z])/g, ' $1')}</th>
+                      ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedEmployee.assets.map((asset, index) => (
+                    <tr key={index} className={isEditMode ? 'editable-row' : ''}>
+                      {Object.entries(asset)
+                        .filter(([key]) => key !== '_id' && key !== 'timestamp')
+                        .map(([key, value]) => (
+                          <td key={key}>
+                            <input
+                              type="text"
+                              name={key}
+                              value={formData[key] !== undefined ? formData[key] : value}
+                              readOnly={!isEditMode}
+                              onChange={handleChange}
+                              className={isEditMode ? 'editable-cell' : ''}
+                            />
+                          </td>
+                        ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {isEditMode && (
+              <button className="btn-update" onClick={handleUpdate}>
+                Update
+              </button>
+            )}
           </div>
         </div>
       )}
