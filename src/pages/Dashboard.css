@@ -302,6 +302,7 @@ td input {
   width: 100%;
   border: none;
   background: transparent;
+  border-radius: 4px;
   outline: none;
   font-size: 14px;
   padding: 5px;
@@ -317,6 +318,7 @@ td input:focus {
   padding: 5px 8px;
   box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
   transition: all 0.3s ease-in-out;
+  outline: none;
 }
 
 /* Alternating Row Colors */

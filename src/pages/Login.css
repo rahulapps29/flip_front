@@ -101,6 +101,8 @@ p {
 
 .form-group input:focus {
   border: 1px solid #008080;
+  box-shadow: 0 0 7px rgba(0, 128, 128, 0.6);
+  transition: all 0.3s ease-in-out;
   outline: none;
 }
 

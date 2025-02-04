@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faDownload, faSearch, faTimes, faEdit, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faDownload, faSearch, faTimes, faEdit, faChevronLeft, faChevronRight, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 25;
 
   const fetchEmployees = useCallback(async () => {
     try {
