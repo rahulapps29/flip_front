@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faDownload, faSearch, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faDownload, faSearch, faTimes, faEdit, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -12,6 +12,10 @@ const Dashboard = () => {
   const [formData, setFormData] = useState({});
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchEmployees = useCallback(async () => {
     try {
@@ -100,32 +104,30 @@ const Dashboard = () => {
 
   const toggleEditMode = () => {
     if (selectedEmployee) {
-      setEditingEmployee(selectedEmployee); // Ensure the editingEmployee is set
+      setEditingEmployee(selectedEmployee);
     }
     setIsEditMode((prevMode) => !prevMode);
   };
-  
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `https://flipkartb.algoapp.in/api/employee/${selectedEmployee._id}`, // Use selectedEmployee ID
+        `https://flipkartb.algoapp.in/api/employee/${selectedEmployee._id}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       const updatedEmployees = employees.map(emp =>
         emp._id === selectedEmployee._id ? { ...emp, ...formData } : emp
       );
       setEmployees(updatedEmployees);
-      closeModal();
+      setIsEditMode(false);
     } catch (err) {
       console.error('Failed to update the record:', err.response?.data || err);
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,6 +140,46 @@ const Dashboard = () => {
     setEditingEmployee(null);
     setFormData({});
     setIsEditMode(false);
+  };
+
+  const totalPages = Math.ceil(employees.length / itemsPerPage);
+  const currentEmployees = employees.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const getPaginationButtons = () => {
+    const buttons = [];
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        buttons.push(i);
+      }
+    } else {
+      buttons.push(1);
+
+      if (currentPage > 4) {
+        buttons.push('ellipsis-start');
+      }
+
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        buttons.push(i);
+      }
+
+      if (currentPage < totalPages - 3) {
+        buttons.push('ellipsis-end');
+      }
+
+      buttons.push(totalPages);
+    }
+
+    return buttons;
   };
 
   return (
@@ -162,10 +204,15 @@ const Dashboard = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        {searchTerm && (
+          <button className="clear-btn" onClick={() => setSearchTerm('')}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
       </div>
 
       <div className="cards-container">
-        {employees
+        {currentEmployees
           .filter((emp) =>
             emp.internetEmail.toLowerCase().includes(searchTerm.toLowerCase())
           )
@@ -180,6 +227,40 @@ const Dashboard = () => {
               </button>
             </div>
           ))}
+      </div>
+
+      <div className="pagination">
+        <button
+          className="page-btn"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} /> Prev
+        </button>
+
+        {getPaginationButtons().map((item, index) =>
+          item === 'ellipsis-start' || item === 'ellipsis-end' ? (
+            <span key={index} className="ellipsis">
+              <FontAwesomeIcon icon={faEllipsisH} />
+            </span>
+          ) : (
+            <button
+              key={index}
+              className={`page-number ${currentPage === item ? 'active' : ''}`}
+              onClick={() => handlePageChange(item)}
+            >
+              {item}
+            </button>
+          )
+        )}
+
+        <button
+          className="page-btn"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next <FontAwesomeIcon icon={faChevronRight} />
+        </button>
       </div>
 
       {isModalOpen && selectedEmployee && (

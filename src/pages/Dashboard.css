@@ -1,19 +1,25 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #f4f7fc;
+  color: #004080;
   margin: 0;
   padding: 0;
   line-height: 1.6;
+  height: auto;
 }
 
 .dashboard-container {
   max-width: 100%;
-  margin: 20px auto;
+  margin: 20px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #f4f7fc;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 84vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .dashboard-header {
@@ -21,16 +27,17 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid #004080;
 }
 
 .dashboard-header h1 {
-  font-size: 24px;
-  color: #1976d2;
+  font-size: 28px;
+  font-weight: bold;
+  color: #004080;
 }
 
 .dashboard-actions button {
-  background-color: #1976d2;
+  background-color: #0056b3;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -41,7 +48,7 @@ body {
 }
 
 .dashboard-actions button:hover {
-  background-color: #135ba1;
+  background-color: #004080;
 }
 
 .search-bar {
@@ -49,9 +56,26 @@ body {
   align-items: center;
   margin: 20px 0;
   background: #e3f2fd;
-  padding: 10px 15px;
+  padding: 7px 15px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clear-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.clear-btn:hover {
+  transform: scale(1.1);
+  color: #d32f2f;
 }
 
 .search-bar input {
@@ -88,7 +112,7 @@ body {
 .employee-card h3 {
   margin: 0 0 10px;
   font-size: 18px;
-  color: #1976d2;
+  color: #004080;
 }
 
 .btn-delete {
@@ -117,23 +141,40 @@ body {
 .pagination {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin: 20px 0;
+  margin: 0px 20px;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 0;
+  border-top: 2px solid #004080;
+  z-index: 10;
 }
 
-.page-btn {
+.page-btn, .page-number {
   padding: 10px 14px;
-  background: #1976d2;
+  background: #0056b3;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .page-btn:hover,
-.page-btn.active {
-  background: #135ba1;
+.page-number:hover,
+.page-number.active {
+  background: #004080;
+  transform: scale(1.05);
+}
+
+.ellipsis {
+  padding: 10px 14px;
+  color: #004080;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .modal-overlay {
@@ -199,9 +240,9 @@ body {
 .modal-content h2 {
   margin-bottom: 15px;
   text-align: center;
-  color: #1976d2;
+  color: #004080;
   font-size: 24px;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid #004080;
   padding-bottom: 10px;
 }
 
@@ -224,7 +265,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: #fafafa;
+  background-color: #f4f7fc;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -233,7 +274,7 @@ table {
 
 /* Header Styling */
 th {
-  background-color: #1976d2;
+  background-color: #004080;
   color: white;
   padding: 12px 15px;
   text-align: center;
@@ -241,19 +282,19 @@ th {
   text-transform: uppercase;
   white-space: nowrap; /* Prevent text wrapping */
   min-width: 150px; /* Minimum width for each column */
-  border: 1px solid #ddd;
+  border: 1px solid #d1d9e6;
 }
 
 /* Data Cell Styling */
 td {
   padding: 10px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #d1d9e6;
   word-wrap: break-word; /* Ensure long words wrap */
   white-space: normal; /* Allow text wrapping */
   min-width: 150px; /* Match the header's min-width */
   vertical-align: top;
-  background-color: #f9f9f9;
+  background-color: #f4f7fc;
 }
 
 /* Input Fields in Cells */
@@ -270,8 +311,8 @@ td input {
 
 /* Focus Effect for Input Fields */
 td input:focus {
-  background: #fff;
-  border: 1px solid #1976d2;
+  background: #f4f7fc;
+  border: 1px solid #004080;
   border-radius: 4px;
   padding: 5px 8px;
   box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
@@ -280,7 +321,7 @@ td input:focus {
 
 /* Alternating Row Colors */
 tr:nth-child(even) {
-  background-color: #f2f9ff;
+  background-color: #e3f2fd;
 }
 
 /* Hover Effect */
@@ -293,9 +334,9 @@ tr:hover {
 .modal-content h2 {
   margin-bottom: 15px;
   text-align: center;
-  color: #1976d2;
+  color: #004080;
   font-size: 24px;
-  border-bottom: 2px solid #1976d2;
+  border-bottom: 2px solid #004080;
   padding-bottom: 10px;
 }
 
@@ -303,7 +344,7 @@ tr:hover {
   position: absolute;
   top: 15px;
   left: 20px;
-  background: #1976d2; /* Default color when not active */
+  background: #004080; /* Default color when not active */
   color: white;
   border: none;
   border-radius: 50%;
@@ -317,20 +358,20 @@ tr:hover {
 }
 
 .btn-edit:hover {
-  background: #135ba1; /* Hover color when not active */
+  background: #004080; /* Hover color when not active */
 }
 
 .btn-edit.active {
-  background: #4caf50; /* Active color when edit mode is enabled */
+  background: #008080; /* Active color when edit mode is enabled */
 }
 
 .btn-edit.active:hover {
-  background: #388e3c; /* Hover color when active */
+  background: #008080; /* Hover color when active */
 }
 
 
 .btn-update {
-  background: #4caf50;
+  background: #008080;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -341,7 +382,7 @@ tr:hover {
 }
 
 .btn-update:hover {
-  background-color: #388e3c;
+  background-color: #008080;
 }
 
 
