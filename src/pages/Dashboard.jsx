@@ -98,9 +98,10 @@ const Dashboard = () => {
 
   const handleView = (employee) => {
     setSelectedEmployee(employee);
-    setFormData(employee);
+    setFormData(employee.assets.map(asset => ({ ...asset })));
     setIsModalOpen(true);
   };
+
 
   const toggleEditMode = () => {
     if (selectedEmployee) {
@@ -115,23 +116,28 @@ const Dashboard = () => {
       const token = localStorage.getItem('token');
       await axios.put(
         `https://flipkartb.algoapp.in/api/employee/${selectedEmployee._id}`,
-        formData,
+        { assets: formData }, // Send only the modified assets
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const updatedEmployees = employees.map(emp =>
-        emp._id === selectedEmployee._id ? { ...emp, ...formData } : emp
+      setEmployees((prev) =>
+        prev.map((emp) =>
+          emp._id === selectedEmployee._id ? { ...emp, assets: formData } : emp
+        )
       );
-      setEmployees(updatedEmployees);
       setIsEditMode(false);
     } catch (err) {
       console.error('Failed to update the record:', err.response?.data || err);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, assetIndex) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => {
+      const updatedAssets = [...prev];
+      updatedAssets[assetIndex] = { ...updatedAssets[assetIndex], [name]: value };
+      return updatedAssets;
+    });
   };
 
   const closeModal = () => {
@@ -285,8 +291,8 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedEmployee.assets.map((asset, index) => (
-                    <tr key={index} className={isEditMode ? 'editable-row' : ''}>
+                  {selectedEmployee.assets.map((asset, assetIndex) => (
+                    <tr key={assetIndex} className={isEditMode ? 'editable-row' : ''}>
                       {Object.entries(asset)
                         .filter(([key]) => key !== '_id' && key !== 'timestamp')
                         .map(([key, value]) => (
@@ -294,9 +300,9 @@ const Dashboard = () => {
                             <input
                               type="text"
                               name={key}
-                              value={formData[key] !== undefined ? formData[key] : value}
+                              value={formData[assetIndex]?.[key] ?? value}
                               readOnly={!isEditMode}
-                              onChange={handleChange}
+                              onChange={(e) => handleChange(e, assetIndex)}
                               className={isEditMode ? 'editable-cell' : ''}
                             />
                           </td>
@@ -304,6 +310,7 @@ const Dashboard = () => {
                     </tr>
                   ))}
                 </tbody>
+
               </table>
             </div>
             {isEditMode && (
