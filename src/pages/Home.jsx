@@ -1,5 +1,5 @@
-// File: src/pages/Home.jsx
 import React, { useState } from 'react';
+import './Home.css'; // Import the new CSS file
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
@@ -8,7 +8,7 @@ const UploadPage = () => {
   const handleFileUpload = async (e) => {
     e.preventDefault();
     if (!file) {
-      setUploadMessage('Please select a file first.');
+      setUploadMessage('❌ Please select a file first.');
       return;
     }
   
@@ -28,26 +28,71 @@ const UploadPage = () => {
       const data = await response.json();
       setUploadMessage(data.message);
     } catch (error) {
-      console.error('Failed to upload file.');
+      setUploadMessage('❌ Failed to upload file.');
     }
   };
-  
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl mb-4">Upload CSV File</h1>
-      <form onSubmit={handleFileUpload} className="flex flex-col gap-4 mt-4">
+    <div className="upload-container">
+      <h1 className="upload-title">Upload CSV File</h1>
+
+      {/* Upload Form */}
+      <form onSubmit={handleFileUpload} className="upload-form">
         <input
           type="file"
           accept=".csv"
           onChange={(e) => setFile(e.target.files[0])}
-          className="border p-2"
+          className="upload-input"
         />
-        <button type="submit" className="bg-green-500 py-2 px-4 rounded">
+        <button type="submit" className="upload-button">
           Upload
         </button>
       </form>
-      {uploadMessage && <div className="mt-4 text-green-500">{uploadMessage}</div>}
+
+      {/* Upload Response Message */}
+      {uploadMessage && <div className="upload-message">{uploadMessage}</div>}
+
+      {/* 📌 Instructions for Users */}
+      <div className="upload-instructions">
+  <h2 className="instructions-title">📌 File Requirements:</h2>
+  <p className="instructions-text">
+    Please upload a <strong>CSV file</strong> containing the following fields:
+  </p>
+  <ul className="instructions-list">
+    <li><strong>itamOrganization</strong> - Organization name (e.g., "Flipkart", "Myntra")</li>
+    <li><strong>assetId</strong> - Unique asset identifier (e.g., "A12345")</li>
+    <li><strong>serialNumber</strong> - Device serial number (e.g., "S1", "S2")</li>
+    <li><strong>manufacturerName</strong> - Name of device manufacturer (e.g., "Dell", "HP", "Lenovo")</li>
+    <li><strong>modelVersion</strong> - Model version of the device (e.g., "XPS 15", "EliteBook 840")</li>
+    <li><strong>building</strong> - Location of the device (e.g., "Headquarters", "Branch Office")</li>
+    <li><strong>locationId</strong> - Office location ID (e.g., "L001", "L002")</li>
+    <li><strong>internetEmail</strong> - Employee’s email address</li>
+    <li><strong>department</strong> - Employee's department (e.g., "IT", "Finance", "HR")</li>
+    <li><strong>employeeId</strong> - Unique employee identifier (e.g., "E001")</li>
+    <li><strong>managerEmployeeId</strong> - Manager's employee ID (e.g., "M001")</li>
+    <li><strong>managerEmailId</strong> - Manager's email address</li>
+    <li><strong>formOpened</strong> - Whether the form was opened ("Yes" / "No")</li>
+    <li><strong>serialNumberEntered</strong> - Whether the serial number was entered ("Yes" / "No")</li>
+    <li><strong>reconciliationStatus</strong> - Status of asset verification</li>
+    <li><strong>assetCondition</strong></li>
+    <li><strong>assetConditionEntered</strong> </li>
+    <li><strong>manufacturerNameEntered</strong> </li>
+    <li><strong>modelVersionEntered</strong>  </li>
+    <li><strong>emailSent</strong> </li>
+    <li><strong>lastEmailSentAt</strong> </li>
+    <li><strong>managerEmailSent</strong> </li>
+    <li><strong>lastManagerEmailSentAt</strong> </li>
+  </ul>
+
+  {/* Possible Values Section */}
+  {/* <h3 className="instructions-subtitle">✅ Possible Values:</h3>
+  <ul className="instructions-list">
+    <li><strong>reconciliationStatus</strong>: <code>"Verified"</code>, <code>"Pending"</code>, <code>"Mismatch"</code></li>
+    <li><strong>assetCondition</strong>: <code>"Good"</code>, <code>"Bad"</code>, <code>"Damaged"</code></li>
+    <li><strong>formOpened, serialNumberEntered, assetConditionEntered, manufacturerNameEntered, modelVersionEntered, emailSent, managerEmailSent</strong>: <code>"Yes"</code>, <code>"No"</code></li>
+  </ul> */}
+</div>
+
     </div>
   );
 };

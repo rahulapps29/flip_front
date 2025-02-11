@@ -1,0 +1,86 @@
+/* Container */
+.upload-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .upload-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Upload Form */
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .upload-input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .upload-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .upload-button:hover {
+    background-color: #218838;
+  }
+  
+  /* Upload Message */
+  .upload-message {
+    margin-top: 15px;
+    font-size: 16px;
+    color: green;
+    text-align: center;
+  }
+  
+  /* Instructions */
+  .upload-instructions {
+    background: #eef2f7;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .instructions-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .instructions-text {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .instructions-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .instructions-subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
