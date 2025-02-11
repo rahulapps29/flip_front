@@ -65,54 +65,60 @@ const Dashboard = () => {
 
   const handleDownload = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  
-      const employees = response.data;
-  
-      // Flatten the data
-      const flattenedData = employees.flatMap(employee => 
-        employee.assets.map(asset => ({
-          internetEmail: employee.internetEmail, // Add the employee's email to each asset
-          itamOrganization: asset.itamOrganization || employee.itamOrganization || '', // Ensure itamOrganization is captured
-          ...asset
-        }))
-      );
-  
-      // Define the CSV headers based on the original CSV structure
-      const headers = [
-        "itamOrganization", "assetId", "serialNumber", "manufacturerName", "modelVersion",
-        "building", "locationId", "internetEmail", "department", "employeeId",
-        "managerEmployeeId", "managerEmailId", "emailDelivery", "serialNumberEntered",
-        "reconciliationStatus", "assetCondition", "assetConditionEntered", 
-        "manufacturerNameEntered", "modelVersionEntered"
-      ];
-  
-      // Convert data to CSV format
-      const csvContent = [
-        headers.join(','), // CSV headers
-        ...flattenedData.map(row =>
-          headers.map(header =>
-            row[header] !== undefined ? `"${String(row[header]).replace(/"/g, '""')}"` : ''
-          ).join(',')
-        )
-      ].join('\n');
-  
-      // Trigger the download
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'employees_transformed.csv');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://flipkartb.algoapp.in/api/dashboard', {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const employees = response.data;
+
+        // Flatten the data and include new fields
+        const flattenedData = employees.flatMap(employee =>
+            employee.assets.map(asset => ({
+                internetEmail: employee.internetEmail,
+                // itamOrganization: asset.itamOrganization ?? employee.itamOrganization ?? 'Unknown',
+                emailSent: employee.emailSent ?? false, // Default to false if not available
+                lastEmailSentAt: employee.lastEmailSentAt ? new Date(employee.lastEmailSentAt).toISOString() : '',
+                managerEmailSent: employee.managerEmailSent ?? false, // Default to false if not available
+                lastManagerEmailSentAt: employee.lastManagerEmailSentAt ? new Date(employee.lastManagerEmailSentAt).toISOString() : '',
+                ...asset
+            }))
+        );
+
+        // Define the CSV headers based on the original CSV structure + new fields
+        const headers = [
+            "itamOrganization", "assetId", "serialNumber", "manufacturerName", "modelVersion",
+            "building", "locationId", "internetEmail", "department", "employeeId",
+            "managerEmployeeId", "managerEmailId", "formOpened", "serialNumberEntered",
+            "reconciliationStatus", "assetCondition", "assetConditionEntered",
+            "manufacturerNameEntered", "modelVersionEntered",
+            "emailSent", "lastEmailSentAt", "managerEmailSent", "lastManagerEmailSentAt" // New fields
+        ];
+
+        // Convert data to CSV format
+        const csvContent = [
+            headers.join(','), // CSV headers
+            ...flattenedData.map(row =>
+                headers.map(header =>
+                    row[header] !== undefined ? `"${String(row[header]).replace(/"/g, '""')}"` : ''
+                ).join(',')
+            )
+        ].join('\n');
+
+        // Trigger the download
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'employees_transformed.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     } catch (err) {
-      console.error('Failed to download data:', err);
+        console.error('Failed to download data:', err);
     }
-  };
+};
+
   
 
   const handleView = (employee) => {
@@ -297,7 +303,7 @@ const Dashboard = () => {
             <button className="modal-close" onClick={closeModal}>
               <FontAwesomeIcon icon={faTimes} />
             </button>
-            <h2>Employee: {selectedEmployee.internetEmail}</h2>
+            <h2>{selectedEmployee.internetEmail} || Trigger: {selectedEmployee.emailSent ? "Emp: Yes" : "Emp: No"} & {selectedEmployee.managerEmailSent ? "Mang: Yes" : "Mang: No"} </h2>
             <div className='tableContainer'>
               <table>
                 <thead>

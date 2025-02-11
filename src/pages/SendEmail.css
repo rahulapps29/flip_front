@@ -1,0 +1,89 @@
+/* Container */
+.send-email-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Heading */
+  .send-email-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+    font-weight: bold;
+  }
+  
+  /* Label */
+  .send-email-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  /* Input Field */
+  .send-email-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Button */
+  .send-email-button {
+    background-color: #1a73e8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+  
+  .send-email-button:hover {
+    background-color: #0f5dc8;
+  }
+  
+  .send-email-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Message */
+  .send-email-message {
+    margin-top: 12px;
+    color: green;
+    font-weight: 500;
+  }
+  
+  /* Remaining Emails */
+  .send-email-remaining {
+    margin-top: 8px;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  /* Admin Controls */
+  .send-email-admin {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .send-email-reset-button {
+    background-color: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+  
+  .send-email-reset-button:hover {
+    background-color: #c9302c;
+  }
+  
