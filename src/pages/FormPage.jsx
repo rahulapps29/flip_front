@@ -132,7 +132,8 @@ const FormPage = () => {
                   required
                 >
                   <option value="">Select Asset Condition</option>
-                  <option value="Good">Good</option>
+                  <option value="Working">Working</option>
+                  <option value="Not Working">Not Working</option>
                   <option value="Damaged">Damaged</option>
                   <option value="Needs Repair">Needs Repair</option>
                 </select>
@@ -140,14 +141,19 @@ const FormPage = () => {
 
               <div className="form-group">
                 <label>Manufacturer Name: <span className="required">*</span></label>
-                <input
-                  type="text"
+                <select
+                  className="form-input"
                   value={asset.manufacturerNameEntered}
                   onChange={(e) => handleInputChange(index, 'manufacturerNameEntered', e.target.value)}
-                  className="form-input"
                   required
-                  placeholder="Enter Manufacturer Name"
-                />
+                >
+                  <option value="">Select Manufacturer Name</option>
+                  <option value="Apple">Apple</option>
+                  <option value="Dell">Dell</option>
+                  <option value="Hp">Hp</option>
+                  <option value="Lenovo">Lenovo</option>
+                  <option value="Others">Others</option>
+                </select>
               </div>
 
               <div className="form-group">
