@@ -25,10 +25,17 @@ const Instructions = () => {
         </li>
 
         <li>
-          <strong>Unfreeze & Edit Cooldown Period (Optional):</strong>  
+          <strong>Freeze & Unfreeze Cooldown Period:</strong>  
           - By default, the cooldown **cannot be changed manually** while emails are pending.  
-          - If needed, click **"Unfreeze Cooldown"** next to the cooldown input field to enable editing.  
-          - After editing, emails can be sent once the cooldown timer reaches **00:00:00**.
+          - If needed, click **"Unfreeze Cooldown"** to make the input field editable.  
+          - After making changes, you can **click "Freeze Cooldown"** to lock it again.
+          - The Freeze/Unfreeze buttons **work independently** for Employee and Manager cooldowns.
+          - **How it works:**
+            <ul className="list-disc pl-5">
+              <li>If the cooldown is **frozen**, the input is **disabled**, and emails follow the default cooldown period.</li>
+              <li>If the cooldown is **unfrozen**, the input becomes **editable**, allowing manual adjustments.</li>
+              <li>You can always **toggle between Freeze & Unfreeze** as needed.</li>
+            </ul>
         </li>
 
         <li>
@@ -55,6 +62,7 @@ const Instructions = () => {
             <ul className="list-disc pl-5">
               <li>Cooldown **immediately resets to 00:00:00**, allowing emails to be sent again.</li>
               <li>All previous pending emails are removed from the system.</li>
+              <li>The cooldown input fields are **frozen again automatically** after reset.</li>
               <li>It does not delete employee/manager records but resets their email status.</li>
             </ul>
         </li>
@@ -63,6 +71,7 @@ const Instructions = () => {
           <strong>Automatic Cooldown Handling:</strong>  
           - If you **send an email batch**, the cooldown input will **automatically reset to 24 hours**.  
           - If you **reset email statuses**, the cooldown timer will **instantly reset to 00:00:00**, allowing emails to be sent immediately.
+          - Resetting also **relocks (freezes) cooldown input fields**, requiring you to **Unfreeze** them again if you need to edit.
         </li>
 
         <li>
