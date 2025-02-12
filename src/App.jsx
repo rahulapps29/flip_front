@@ -8,6 +8,7 @@ import SendEmailPage from './pages/SendEmail';
 import Dashboard from './pages/Dashboard';
 import FormPage from './pages/FormPage';
 import Login from './pages/Login';
+import Instructions from "./pages/Instructions";
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import './App.css';
 
@@ -64,6 +65,7 @@ const App = () => {
         <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/form" element={<FormPage />} />
+        <Route path="/instructions" element={<Instructions />} />
         <Route path="/upload" element={<ProtectedRoute><UploadPage /></ProtectedRoute>} />
         <Route path="/send-email" element={<ProtectedRoute><SendEmailPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
