@@ -19,6 +19,9 @@ const SendEmailPage = () => {
   const [remainingManagerTime, setRemainingManagerTime] = useState('');
   const [isCooldownEmployeeEnabled, setIsCooldownEmployeeEnabled] = useState(false);
   const [isCooldownManagerEnabled, setIsCooldownManagerEnabled] = useState(false);
+  const [cooldownEmployeeFixed, setCooldownEmployeeFixed] = useState(24);
+  const [cooldownManagerFixed, setCooldownManagerFixed] = useState(24);
+
   
   
   useEffect(() => {
@@ -80,25 +83,54 @@ const SendEmailPage = () => {
   };
 
   const updateRemainingTimes = () => {
-    setRemainingEmployeeTime(formatRemainingTime(lastEmployeeSentTime, cooldownEmployee));
-    setRemainingManagerTime(formatRemainingTime(lastManagerSentTime, cooldownManager));
+    if (!lastEmployeeSentTime || cooldownEmployeeFixed === 0) {
+      setRemainingEmployeeTime('00:00:00');
+    } else {
+      setRemainingEmployeeTime(formatRemainingTime(lastEmployeeSentTime, cooldownEmployeeFixed));
+    }
+  
+    if (!lastManagerSentTime || cooldownManagerFixed === 0) {
+      setRemainingManagerTime('00:00:00');
+    } else {
+      setRemainingManagerTime(formatRemainingTime(lastManagerSentTime, cooldownManagerFixed));
+    }
   };
+  
+  
+  const resetEmployeeCooldown = () => {
+    setLastEmployeeSentTime(null);
+    setRemainingEmployeeTime('00:00:00');
+    setCooldownEmployeeFixed(0);
+    setIsCooldownEmployeeEnabled(true);  // Enable input after reset
+  };
+  
+  const resetManagerCooldown = () => {
+    setLastManagerSentTime(null);
+    setRemainingManagerTime('00:00:00');
+    setCooldownManagerFixed(0);
+    setIsCooldownManagerEnabled(true);  // Enable input after reset
+  };
+  
+  
 
-  const formatRemainingTime = (lastSentTime, cooldownHours) => {
-    if (!lastSentTime) return '00:00:00';
+  const formatRemainingTime = (lastSentTime, cooldownHoursFixed) => {
+    if (!lastSentTime || cooldownHoursFixed === 0) return '00:00:00';
+  
     const lastSentDate = new Date(lastSentTime);
     const now = new Date();
-    const cooldownEnd = new Date(lastSentDate.getTime() + cooldownHours * 60 * 60 * 1000);
+    const cooldownEnd = new Date(lastSentDate.getTime() + cooldownHoursFixed * 60 * 60 * 1000);
     const diff = cooldownEnd - now;
-
+  
     if (diff <= 0) return '00:00:00';
-
+  
     const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
     const minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
     const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-
+  
     return `${hours}:${minutes}:${seconds}`;
   };
+  
+  
 
   const handleSendEmails = async () => {
     setIsSending(true);
@@ -110,42 +142,43 @@ const SendEmailPage = () => {
       });
       const data = await response.json();
       setMessage(data.message);
-
-      // Correctly start the 24-hour cooldown
-      const now = new Date();
-      setLastEmployeeSentTime(now);
-      setCooldownEmployee(24);
-
+  
+      // Lock the cooldown input after sending emails
+      setLastEmployeeSentTime(new Date());
+      setCooldownEmployeeFixed(cooldownEmployee);
+      setIsCooldownEmployeeEnabled(false); // Keep input disabled after sending
+  
       fetchAllData();
     } catch (error) {
       setMessage('Error sending emails.');
     }
     setIsSending(false);
-};
+  };
+  
 
-
-const handleSendEmailsToManagers = async () => {
-  setIsSendingManagers(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`https://flipkartb.algoapp.in/api/send-emails-to-managers?batchSize=${managerBatchSize}`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-    });
-    const data = await response.json();
-    setMessage2(data.message);
-
-    // Correctly start the 24-hour cooldown
-    const now = new Date();
-    setLastManagerSentTime(now);
-    setCooldownManager(24);
-
-    fetchAllData();
-  } catch (error) {
-    setMessage2('Error sending emails to managers.');
-  }
-  setIsSendingManagers(false);
-};
+  const handleSendEmailsToManagers = async () => {
+    setIsSendingManagers(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`https://flipkartb.algoapp.in/api/send-emails-to-managers?batchSize=${managerBatchSize}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setMessage2(data.message);
+  
+      // Lock the cooldown input after sending emails
+      setLastManagerSentTime(new Date());
+      setCooldownManagerFixed(cooldownManager);
+      setIsCooldownManagerEnabled(false); // Keep input disabled after sending
+  
+      fetchAllData();
+    } catch (error) {
+      setMessage2('Error sending emails to managers.');
+    }
+    setIsSendingManagers(false);
+  };
+  
 
 
 const handleResetEmails = async () => {
@@ -229,23 +262,35 @@ const handleResetManagerEmails = async () => {
       </label>
 
       <label className="send-email-label">
-        Cooldown Period (Hours):
-        {/* <input type="number" value={cooldownEmployee} onChange={(e) => setCooldownEmployee(Number(e.target.value))} className="send-email-input" min="1" /> */}
-        <input 
-  type="number" 
-  value={cooldownEmployee} 
-  onChange={(e) => setCooldownEmployee(Math.max(0, parseInt(e.target.value) || 0))} 
-  className="send-email-input" 
-  min="0" 
-  disabled={!isCooldownEmployeeEnabled} 
-/>
+  Cooldown Period (Hours):
+  <input 
+    type="number" 
+    value={cooldownEmployee} 
+    onChange={(e) => setCooldownEmployee(Math.max(0, parseInt(e.target.value) || 0))} 
+    className="send-email-input" 
+    min="0" 
+    disabled={!isCooldownEmployeeEnabled}  // Start disabled & disable after sending
+  />
 </label>
+
 <button 
   className="send-email-unfreeze-button" 
   onClick={() => setIsCooldownEmployeeEnabled(!isCooldownEmployeeEnabled)}
 >
   {isCooldownEmployeeEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
 </button>
+
+
+
+
+<button 
+  onClick={resetEmployeeCooldown} 
+  className="send-email-reset-button"
+>
+  Reset Employee Cooldown
+</button>
+
+
 
 
 
@@ -266,17 +311,17 @@ const handleResetManagerEmails = async () => {
       </label>
 
       <label className="send-email-label">
-        Cooldown Period (Hours):
-        {/* <input type="number" value={cooldownManager} onChange={(e) => setCooldownManager(Number(e.target.value))} className="send-email-input" min="1" /> */}
-        <input 
-  type="number" 
-  value={cooldownManager} 
-  onChange={(e) => setCooldownManager(Math.max(0, parseInt(e.target.value) || 0))} 
-  className="send-email-input" 
-  min="0" 
-  disabled={!isCooldownManagerEnabled} 
-/>
+  Cooldown Period (Hours):
+  <input 
+    type="number" 
+    value={cooldownManager} 
+    onChange={(e) => setCooldownManager(Math.max(0, parseInt(e.target.value) || 0))} 
+    className="send-email-input" 
+    min="0" 
+    disabled={!isCooldownManagerEnabled} 
+  />
 </label>
+
 <button 
   className="send-email-unfreeze-button" 
   onClick={() => setIsCooldownManagerEnabled(!isCooldownManagerEnabled)}
@@ -284,6 +329,15 @@ const handleResetManagerEmails = async () => {
   {isCooldownManagerEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
 </button>
 
+
+
+
+<button 
+  onClick={resetManagerCooldown} 
+  className="send-email-reset-button"
+>
+  Reset Manager Cooldown
+</button>
 
 
 
