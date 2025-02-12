@@ -1,7 +1,10 @@
 /* Container */
+
+
+
 .upload-container {
-    padding: 20px;
-    max-width: 600px;
+    padding: 10px;
+    max-width: 1600px;
     margin: 0 auto;
     background: #f9f9f9;
     border-radius: 8px;
@@ -10,12 +13,28 @@
   
   /* Title */
   .upload-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-  }
-  
+    font-size: 2.5rem; /* Slightly smaller */
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #222; /* Dark grey for a premium look */
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #F5F7FA, #D6E0F0); /* Soft gradient */
+    padding: 15px 30px;
+    border-radius: 8px;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid #4A90E2; /* Subtle border */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.upload-title:hover {
+    background: linear-gradient(135deg, #D6E0F0, #F5F7FA);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+
   /* Upload Form */
   .upload-form {
     display: flex;

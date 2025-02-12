@@ -34,7 +34,7 @@ const UploadPage = () => {
 
   return (
     <div className="upload-container">
-      <h1 className="upload-title">Upload CSV File</h1>
+      <h1 className="upload-title"> <strong>Upload CSV file</strong> </h1>
 
       {/* Upload Form */}
       <form onSubmit={handleFileUpload} className="upload-form">
