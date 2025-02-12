@@ -148,7 +148,6 @@ const handleSendEmailsToManagers = async () => {
 };
 
 
-
 const handleResetEmails = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -160,18 +159,16 @@ const handleResetEmails = async () => {
     if (response.ok) {
       setMessage('✅ Employee email statuses reset successfully.');
 
-      // 🌟 Full Reset: Initialize Everything
+      // Reset everything
       setLastEmployeeSentTime(null);
       setRemainingEmployeeTime('00:00:00');
       setCooldownEmployee(24);
-      setIsCooldownEmployeeEnabled(false);
-      setEmployeeBatchSize(1400); // Reset batch size to default
-      setRemainingEmails(null); // Reset UI for remaining emails
-      
-      // 🌟 Ensure we don't fetch old last sent time immediately
-      setTimeout(() => {
-        fetchRemainingEmails(); // Fetch only remaining email count, NOT last sent time
-      }, 1500);
+      setIsCooldownEmployeeEnabled(false); // Freeze cooldown after reset
+      // setIsCooldownManagerEnabled(false); // Ensure mutual exclusivity
+      setEmployeeBatchSize(1400);
+      setRemainingEmails('Loading...');
+
+      setTimeout(fetchRemainingEmails, 1500);
     } else {
       setMessage('❌ Error resetting employee emails.');
     }
@@ -179,6 +176,7 @@ const handleResetEmails = async () => {
     setMessage('❌ Error resetting employee emails.');
   }
 };
+
 
 const handleResetManagerEmails = async () => {
   try {
@@ -191,18 +189,16 @@ const handleResetManagerEmails = async () => {
     if (response.ok) {
       setMessage2('✅ Manager email statuses reset successfully.');
 
-      // 🌟 Full Reset: Initialize Everything
+      // Reset everything
       setLastManagerSentTime(null);
       setRemainingManagerTime('00:00:00');
       setCooldownManager(24);
-      setIsCooldownManagerEnabled(false);
-      setManagerBatchSize(1400); // Reset batch size to default
-      setRemainingManagerEmails(null); // Reset UI for remaining manager emails
-      
-      // 🌟 Ensure we don't fetch old last sent time immediately
-      setTimeout(() => {
-        fetchRemainingManagerEmails(); // Fetch only remaining count, NOT last sent time
-      }, 1500);
+      setIsCooldownManagerEnabled(false); // Freeze cooldown after reset
+      // setIsCooldownEmployeeEnabled(false); // Ensure mutual exclusivity
+      setManagerBatchSize(1400);
+      setRemainingManagerEmails('Loading...');
+
+      setTimeout(fetchRemainingManagerEmails, 1500);
     } else {
       setMessage2('❌ Error resetting manager emails.');
     }
@@ -210,6 +206,7 @@ const handleResetManagerEmails = async () => {
     setMessage2('❌ Error resetting manager emails.');
   }
 };
+
 
 
 
@@ -240,18 +237,17 @@ const handleResetManagerEmails = async () => {
   onChange={(e) => setCooldownEmployee(Math.max(0, parseInt(e.target.value) || 0))} 
   className="send-email-input" 
   min="0" 
-  disabled={!isCooldownEmployeeEnabled && (remainingEmployeeTime !== '00:00:00' || isSending)} 
+  disabled={!isCooldownEmployeeEnabled} 
 />
-
-
-      </label>
-      <button 
+</label>
+<button 
   className="send-email-unfreeze-button" 
-  onClick={() => setIsCooldownEmployeeEnabled(true)}
-  disabled={isCooldownEmployeeEnabled}
+  onClick={() => setIsCooldownEmployeeEnabled(!isCooldownEmployeeEnabled)}
 >
-  Unfreeze Cooldown
+  {isCooldownEmployeeEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
 </button>
+
+
 
 
       <p>Cooldown Remaining: {remainingEmployeeTime}</p>
@@ -278,18 +274,18 @@ const handleResetManagerEmails = async () => {
   onChange={(e) => setCooldownManager(Math.max(0, parseInt(e.target.value) || 0))} 
   className="send-email-input" 
   min="0" 
-  disabled={!isCooldownManagerEnabled && (remainingManagerTime !== '00:00:00' || isSendingManagers)} 
+  disabled={!isCooldownManagerEnabled} 
 />
-
-
-      </label>
-      <button 
+</label>
+<button 
   className="send-email-unfreeze-button" 
-  onClick={() => setIsCooldownManagerEnabled(true)}
-  disabled={isCooldownManagerEnabled}
+  onClick={() => setIsCooldownManagerEnabled(!isCooldownManagerEnabled)}
 >
-  Unfreeze Cooldown
+  {isCooldownManagerEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
 </button>
+
+
+
 
 
       <p>Cooldown Remaining: {remainingManagerTime}</p>
