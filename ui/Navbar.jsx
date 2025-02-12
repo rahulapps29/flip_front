@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import CustomDialog from './CustomDialog';
 import AuthContext from '../src/context/AuthContext';
 import "./Navbar.css";
 
-
-
 const NavigationBar = () => {
   const { logout, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -25,18 +24,26 @@ const NavigationBar = () => {
     }, 300); // Delay ensures dialog closes smoothly
   };
 
+  // Navigation Items
+  const navItems = [
+    { path: '/upload', label: 'Upload CSV' },
+    { path: '/send-email', label: 'Send Emails' },
+    { path: '/dashboard', label: 'Dashboard' },
+  ];
+
   return (
     <nav className="fancy-nav-bar">
       <ul className="fancy-nav-list">
-        <li className="fancy-nav-item">
-          <Link to="/upload" className="fancy-nav-link">Upload CSV</Link>
-        </li>
-        <li className="fancy-nav-item">
-          <Link to="/send-email" className="fancy-nav-link">Send Emails</Link>
-        </li>
-        <li className="fancy-nav-item">
-          <Link to="/dashboard" className="fancy-nav-link">Dashboard</Link>
-        </li>
+        {navItems.map((item) => (
+          <li key={item.path} className="fancy-nav-item">
+            {location.pathname === item.path ? (
+              // Disable the button for the current page
+              <span className="fancy-nav-link disabled-link">{item.label}</span>
+            ) : (
+              <Link to={item.path} className="fancy-nav-link">{item.label}</Link>
+            )}
+          </li>
+        ))}
       </ul>
 
       {isAuthenticated && (
