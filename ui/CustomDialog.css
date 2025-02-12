@@ -1,0 +1,182 @@
+/* Overlay to disable background interactions */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px); /* Adds a slight blur effect for a modern UI */
+  /* animation: fadeIn 0.4s ease-in-out; */
+}
+
+/* Dialog Box */
+.dialog-box {
+  background: linear-gradient(135deg, #f4f7fc, #e8f0fe); /* Soft gradient for depth */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 420px;
+  max-width: 90%;
+  text-align: center;
+  border: none;
+  position: relative;
+  animation: fadeIn 0.4s ease-in-out; 
+}
+
+/* Title */
+.dialog-box h2 {
+  color: #004080; /* Navy Blue */
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #d1d9e6;
+  padding-bottom: 8px;
+}
+
+/* Message */
+.dialog-box p {
+  font-size: 17px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Dialog Button Container */
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 15px;
+}
+
+/* Confirm Button */
+.confirm-btn {
+  background: linear-gradient(135deg, #008000, #005600);
+  color: white;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0, 86, 179, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-btn:hover {
+  background: linear-gradient(135deg, #005600, #003b00);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0, 86, 179, 0.3);
+}
+
+/* Cancel Button */
+.cancel-btn {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: white;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 8px rgba(179, 47, 47, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #b71c1c, #8b0000);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(179, 47, 47, 0.3);
+}
+
+/* Ensure Icons are Properly Sized */
+.confirm-btn svg,
+.cancel-btn svg {
+  font-size: 22px;
+}
+
+
+
+/* Close Icon */
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.close-icon:hover {
+  color: #d32f2f;
+  transform: rotate(90deg);
+}
+
+/* Variants */
+.dialog-box.success {
+  border-left: 6px solid #008080;
+}
+
+.dialog-box.warning {
+  border-left: 6px solid #d32f2f;
+}
+
+.dialog-box.info {
+  border-left: 6px solid #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .dialog-box {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .dialog-box h2 {
+    font-size: 22px;
+  }
+
+  .confirm-btn,
+  .cancel-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}

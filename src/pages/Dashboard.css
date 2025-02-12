@@ -88,54 +88,72 @@ body {
   margin-left: 10px;
 }
 
+/* Grid Layout for Employee Cards */
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 15px;
+  padding: 10px;
 }
 
+/* Individual Employee Card */
 .employee-card {
   background: white;
-  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap; /* Prevents text wrapping */
 }
 
+/* Hover Effect for Card */
 .employee-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Email Text */
 .employee-card h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
+  flex-grow: 1;
+  font-size: 16px;
+  font-weight: 500;
   color: #004080;
+  text-overflow: ellipsis; /* Truncate long emails */
+  overflow: hidden;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* Delete Button */
 .btn-delete {
-  position: absolute;
-  top: 50%;               /* Move to the middle vertically */
-  right: 10px;            /* Align to the right */
-  transform: translateY(-50%); /* Perfect vertical center */
-  width: 35px;
-  height: 35px;
-  background-color: #d32f2f;
+  background: #d32f2f;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 8px 12px;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .btn-delete:hover {
-  background-color: #b71c1c;
-  transform: translateY(-50%) scale(1.1); /* Slight zoom effect on hover */
+  background: #b71c1c;
+  transform: scale(1.1);
+}
+
+/* Ensure Icons Are Properly Sized */
+.btn-delete svg {
+  font-size: 18px;
 }
 
 .pagination {
@@ -177,44 +195,67 @@ body {
   font-size: 18px;
 }
 
+/* ===== Modal Overlay ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6); /* Dim background */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 10px;
+  backdrop-filter: blur(5px); /* Subtle blur effect for modern UI */
+  padding: 15px;
 }
 
+/* ===== Modal Content Box ===== */
 .modal-content {
   background: #ffffff;
-  padding: 20px 30px;
+  padding: 25px 35px;
   border-radius: 15px;
   max-width: 90%;
-  width: 800px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: 850px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
   max-height: 90vh;
   animation: fadeIn 0.4s ease-in-out;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* ===== Modal Header with Title & Close Button ===== */
+.modal-content h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #004080;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
+/* Ensuring long email texts don't break */
+.modal-content h2 span {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Thin, elegant divider */
+.modal-divider {
+  width: 100%;
+  height: 2px;
+  background-color: #004080; /* Theme color */
+  border: none;
+  margin: 5px 0;
+}
+
+/* ===== Close Button (Red) ===== */
 .modal-close {
   position: absolute;
   top: 15px;
@@ -223,107 +264,95 @@ body {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 38px;
+  height: 38px;
   font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .modal-close:hover {
   background: #b71c1c;
+  transform: scale(1.1);
 }
 
-.modal-content h2 {
-  margin-bottom: 15px;
-  text-align: center;
-  color: #004080;
-  font-size: 24px;
-  border-bottom: 2px solid #004080;
-  padding-bottom: 10px;
+/* ===== Edit Button (Blue) ===== */
+.btn-edit {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  background: #004080;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Improved Table Styling */
-/* Container to make the table scrollable if it overflows */
+.btn-edit:hover {
+  background: #002d5a;
+  transform: scale(1.1);
+}
+
+/* Active Edit Mode */
+.btn-edit.active {
+  background: #008080;
+}
+
+/* ===== Table Container (Scrollable) ===== */
 .tableContainer {
   overflow-x: auto;
   max-width: 100%;
+  margin-top: 15px;
 }
 
-/* Improved Table Styling */
-/* Container to handle overflow and enable horizontal scrolling */
-.tableContainer {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-/* Clean Table Design */
+/* ===== Table Styles ===== */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
   background-color: #f4f7fc;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  table-layout: auto; /* Adjust column widths dynamically */
+  table-layout: auto;
 }
 
-/* Header Styling */
+/* ===== Table Header ===== */
 th {
   background-color: #004080;
   color: white;
-  padding: 12px 15px;
+  padding: 12px;
   text-align: center;
-  font-weight: bold;
+  font-size: 14px;
   text-transform: uppercase;
-  white-space: nowrap; /* Prevent text wrapping */
-  min-width: 150px; /* Minimum width for each column */
+  white-space: nowrap;
+  min-width: 160px;
   border: 1px solid #d1d9e6;
 }
 
-/* Data Cell Styling */
+/* ===== Table Data Cell ===== */
 td {
-  padding: 10px 15px;
+  padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid #d1d9e6;
-  word-wrap: break-word; /* Ensure long words wrap */
-  white-space: normal; /* Allow text wrapping */
-  min-width: 150px; /* Match the header's min-width */
-  vertical-align: top;
-  background-color: #f4f7fc;
-}
-
-/* Input Fields in Cells */
-td input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  border-radius: 4px;
-  outline: none;
   font-size: 14px;
-  padding: 5px;
-  box-sizing: border-box;
-  word-break: break-word;
-}
-
-/* Focus Effect for Input Fields */
-td input:focus {
-  background: #f4f7fc;
-  border: 1px solid #004080;
-  border-radius: 4px;
-  padding: 5px 8px;
-  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
-  transition: all 0.3s ease-in-out;
-  outline: none;
+  border-bottom: 1px solid #d1d9e6;
+  word-wrap: break-word;
+  white-space: normal;
+  min-width: 160px;
+  background-color: #ffffff;
 }
 
 /* Alternating Row Colors */
 tr:nth-child(even) {
-  background-color: #e3f2fd;
+  background-color: #f9fcff;
 }
 
 /* Hover Effect */
@@ -332,83 +361,147 @@ tr:hover {
   transition: background-color 0.3s ease;
 }
 
-/* Modal Header */
-.modal-content h2 {
-  margin-bottom: 15px;
-  text-align: center;
-  color: #004080;
-  font-size: 24px;
-  border-bottom: 2px solid #004080;
-  padding-bottom: 10px;
-}
-
-.btn-edit {
-  position: absolute;
-  top: 15px;
-  left: 20px;
-  background: #004080; /* Default color when not active */
-  color: white;
+/* ===== Editable Input Fields ===== */
+td input {
+  width: 100%;
   border: none;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
-.btn-edit:hover {
-  background: #004080; /* Hover color when not active */
+td input:focus {
+  background: #f4f7fc;
+  border: 1px solid #004080;
+  border-radius: 4px;
+  padding: 5px 8px;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
-.btn-edit.active {
-  background: #008080; /* Active color when edit mode is enabled */
-}
-
-.btn-edit.active:hover {
-  background: #008080; /* Hover color when active */
-}
-
-
+/* ===== Update Button (Save Changes) ===== */
 .btn-update {
   background: #008080;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin-top: 15px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center;
 }
 
 .btn-update:hover {
-  background-color: #008080;
+  background-color: #006666;
+  transform: scale(1.05);
+}
+
+/* ===== Responsive Design for Small Screens ===== */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  th,
+  td {
+    font-size: 13px;
+    min-width: 120px;
+  }
+
+  .btn-edit,
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
 }
 
 
-/* Modal Close Button */
-.modal-close {
+/* Welcome Page Styling */
+.welcome-container {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  background: #d32f2f;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  font-size: 18px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers horizontally & vertically */
+  width: 100%;
+  max-width: 650px;
+  padding: 50px;
+  background-color: #f4f7fc; /* Light Grayish Blue */
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #d1d9e6; /* Subtle border */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  text-align: center;
+  justify-content: center;
 }
 
-.modal-close:hover {
-  background: #b71c1c;
+/* Welcome Heading */
+.welcome-container h1 {
+  color: #004080; /* Navy Blue */
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Welcome Message */
+.welcome-container p {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Upload Page Link */
+.welcome-container a {
+  color: #0056b3; /* Professional Blue */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.welcome-container a:hover {
+  color: #004080; /* Darker Navy Blue */
+  text-decoration: underline;
+}
+
+/* Upload Button - Fixed Alignment */
+.upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Adds space between icon and text */
+  margin-top: 20px;
+  padding: 14px 24px;
+  background-color: #0056b3; /* Call-to-Action Blue */
+  color: white !important;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload Button Hover Effect */
+.upload-button:hover {
+  background-color: #004080; /* Slightly Darker Navy */
+  transform: translateY(-2px); /* Lift effect */
+  text-decoration: none !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure Button is Centered */
+.upload-button svg {
+  font-size: 20px;
 }
 
 /* Responsive Adjustments */
@@ -422,5 +515,26 @@ tr:hover {
   .modal-content {
     padding: 15px;
     max-width: 95%;
+  }
+
+  .welcome-container {
+    padding: 40px;
+    max-width: 90%;
+  }
+
+  .welcome-container h1 {
+    font-size: 28px;
+  }
+
+  .upload-button {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr; /* Single column on small screens */
   }
 }
