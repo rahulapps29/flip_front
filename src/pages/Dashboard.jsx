@@ -89,8 +89,8 @@ const Dashboard = () => {
         const headers = [
             "itamOrganization", "assetId", "serialNumber", "manufacturerName", "modelVersion",
             "building", "locationId", "internetEmail", "department", "employeeId",
-            "managerEmployeeId", "managerEmailId", "formOpened", "serialNumberEntered",
-            "reconciliationStatus", "assetCondition", "assetConditionEntered",
+            "managerEmployeeId", "managerEmailId", "assetCondition","formOpened", "serialNumberEntered",
+            "reconciliationStatus",  "assetConditionEntered",
             "manufacturerNameEntered", "modelVersionEntered",
             "emailSent", "lastEmailSentAt", "managerEmailSent", "lastManagerEmailSentAt" // New fields
         ];

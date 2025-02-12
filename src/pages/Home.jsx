@@ -71,10 +71,10 @@ const UploadPage = () => {
     <li><strong>employeeId</strong> - Unique employee identifier (e.g., "E001")</li>
     <li><strong>managerEmployeeId</strong> - Manager's employee ID (e.g., "M001")</li>
     <li><strong>managerEmailId</strong> - Manager's email address</li>
+    <li><strong>assetCondition</strong></li>
     <li><strong>formOpened</strong> - Whether the form was opened ("Yes" / "No")</li>
     <li><strong>serialNumberEntered</strong> - Whether the serial number was entered ("Yes" / "No")</li>
     <li><strong>reconciliationStatus</strong> - Status of asset verification</li>
-    <li><strong>assetCondition</strong></li>
     <li><strong>assetConditionEntered</strong> </li>
     <li><strong>manufacturerNameEntered</strong> </li>
     <li><strong>modelVersionEntered</strong>  </li>
