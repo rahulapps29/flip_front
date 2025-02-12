@@ -125,6 +125,12 @@
   margin-top: 20px;
 }
 
+.required {
+  color: red;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   .form-container {

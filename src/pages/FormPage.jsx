@@ -10,7 +10,7 @@ const FormPage = () => {
   const [formData, setFormData] = useState([]);
   const [employeeData, setEmployeeData] = useState({ name: '', email: '' });
   const [message, setMessage] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false); // Track form submission
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
@@ -112,7 +112,7 @@ const FormPage = () => {
               <h3>Asset {index + 1}</h3>
 
               <div className="form-group">
-                <label>Serial Number:</label>
+                <label>Serial Number: <span className="required">*</span></label>
                 <input
                   type="text"
                   value={asset.serialNumber}
@@ -124,7 +124,7 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Asset Condition:</label>
+                <label>Asset Condition: <span className="required">*</span></label>
                 <select
                   className="form-input"
                   value={asset.assetConditionEntered}
@@ -139,7 +139,7 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Manufacturer Name:</label>
+                <label>Manufacturer Name: <span className="required">*</span></label>
                 <input
                   type="text"
                   value={asset.manufacturerNameEntered}
@@ -151,7 +151,7 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Model Version:</label>
+                <label>Model Version: <span className="required">*</span></label>
                 <input
                   type="text"
                   value={asset.modelVersionEntered}
