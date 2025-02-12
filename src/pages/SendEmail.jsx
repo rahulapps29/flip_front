@@ -247,12 +247,6 @@ const SendEmailPage = () => {
 
 
 
-
-
-
-
-
-
   return (
     <div className="send-email-container">
       <div className='send-email-header'>
@@ -284,7 +278,7 @@ const SendEmailPage = () => {
         className="send-email-unfreeze-button"
         onClick={() => setIsCooldownEmployeeEnabled(!isCooldownEmployeeEnabled)}
       >
-        {isCooldownEmployeeEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
+        {isCooldownEmployeeEnabled ? 'Freeze Cooldown Period' : 'Unfreeze Cooldown Period'}
       </button>
 
 
@@ -296,9 +290,6 @@ const SendEmailPage = () => {
       >
         Reset Employee cooldown Timer
       </button>
-
-
-
 
 
 
@@ -333,7 +324,7 @@ const SendEmailPage = () => {
         className="send-email-unfreeze-button"
         onClick={() => setIsCooldownManagerEnabled(!isCooldownManagerEnabled)}
       >
-        {isCooldownManagerEnabled ? 'Freeze Cooldown' : 'Unfreeze Cooldown'}
+        {isCooldownManagerEnabled ? 'Freeze Cooldown Period' : 'Unfreeze Cooldown Period'}
       </button>
 
 
