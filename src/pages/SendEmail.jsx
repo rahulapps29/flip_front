@@ -287,7 +287,7 @@ const handleResetManagerEmails = async () => {
   onClick={resetEmployeeCooldown} 
   className="send-email-reset-button"
 >
-  Reset Employee Cooldown
+  Reset Employee cooldown Timer
 </button>
 
 
@@ -336,7 +336,7 @@ const handleResetManagerEmails = async () => {
   onClick={resetManagerCooldown} 
   className="send-email-reset-button"
 >
-  Reset Manager Cooldown
+  Reset Manager Cooldownt Timer
 </button>
 
 
