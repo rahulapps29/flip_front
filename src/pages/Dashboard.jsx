@@ -272,22 +272,6 @@ const Dashboard = () => {
     return buttons;
   };
 
-  // If no data, show the welcome message
-  // if (!dataLoaded) {
-  //   return (
-  //     <div className="welcome-container">
-  //       <h1>Welcome to the Employee Asset Dashboard</h1>
-  //       <p>
-  //         To view employee data, please upload the required data by navigating
-  //         to the <a href="http://localhost:4042/upload">Upload Page</a>.
-  //       </p>
-  //       <a href="http://localhost:4042/upload" className="upload-button">
-  //         <FontAwesomeIcon icon={faUpload} /> Upload Data
-  //       </a>
-  //     </div>
-  //   );
-  // }
-
   return (
     isLoading ? (
       <Loader />
