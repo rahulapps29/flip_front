@@ -116,9 +116,9 @@ const UploadPage = () => {
           <li><strong>formOpened:</strong> System-generated  indicate the if user have clicked the sent link</li>
           <li><strong>serialNumberEntered:</strong> user will enter serial number</li>
           <li><strong>reconciliationStatus:</strong> System-generated values indicating the current state, such as <code>"Yes"</code>, <code>"No"</code></li>
-          <li><strong>assetConditionEntered:</strong> user will entet asset condition from dropdown</li>
-          <li><strong>manufacturerNameEntered:</strong> user will entet Manufacturer from dropdown</li>
-          <li><strong>modelVersionEntered:</strong> user will inputted specific model details like <code>"ThinkPad X1 Carbon"</code> or <code>"MacBook Pro M1"</code>.</li>
+          <li><strong>assetConditionEntered:</strong> user will enter asset condition from dropdown</li>
+          <li><strong>manufacturerNameEntered:</strong> user will enter Manufacturer from dropdown</li>
+          <li><strong>modelVersionEntered:</strong> user will inputed specific model details like <code>"ThinkPad X1 Carbon"</code> or <code>"MacBook Pro M1"</code>.</li>
           <li><strong>emailSent:</strong> System-generated values indicate whether an email notification was sent, typically as <code>"Yes"</code> or <code>"No"</code>.</li>
           <li><strong>lastEmailSentAt:</strong> System-generated timestamps showing the last time an email was dispatched (only employee).</li>
           <li><strong>managerEmailSent:</strong> System-generated values indicating if an email was sent to the manager, typically as <code>"Yes"</code> or <code>"No"</code>.</li>
