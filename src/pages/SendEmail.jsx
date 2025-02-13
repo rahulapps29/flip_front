@@ -361,7 +361,7 @@ const SendEmailPage = () => {
           {isSending ? "Sending..." : `Send ${employeeBatchSize} Emails`}
         </button>
         <button onClick={handleResetEmails} className="send-email-reset-button">
-          Reset Employee Emails
+          Reset Employee Email sent flags & timestamps
         </button>
         <p className="send-email-message">{message}</p>
       </div>
@@ -444,7 +444,7 @@ const SendEmailPage = () => {
           onClick={handleResetManagerEmails}
           className="send-email-reset-button"
         >
-          Reset Manager Emails
+           Reset Manger+Employee Email sent flags & timestamps
         </button>
         <p className="send-email-message">{message2}</p>
       </div>
