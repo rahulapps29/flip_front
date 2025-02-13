@@ -282,17 +282,18 @@ const SendEmailPage = () => {
       <Link to="/instructions" className="text-blue-600 hover:underline">
         📖 Read Instructions
       </Link>
-
-      <label className="send-email-label">
-        Employee Batch Size:
+      <div className="cooldown-box">
+      <h3>Employee</h3>
+      <div className="batch-size-container">
+        <label className="batch-size-label">Batch Size:</label>
         <input
           type="number"
           value={employeeBatchSize}
           onChange={(e) => setEmployeeBatchSize(e.target.value)}
-          className="send-email-input"
+          className="batch-size-input"
           min="1"
         />
-      </label>
+      </div>
 
       {/* Employee Section - Cooldown & Timer in One Row */}
       <div className="cooldown-row">
@@ -349,19 +350,22 @@ const SendEmailPage = () => {
         </button>
         <p className="send-email-message">{message}</p>
       </div>
-
+      </div>
       <hr />
 
-      <label className="send-email-label">
-        Manager Batch Size:
+      <div className="cooldown-box">
+      <h3>Manager</h3>
+      <div className="batch-size-container">
+        <label className="batch-size-label">Batch Size:</label>
         <input
           type="number"
           value={managerBatchSize}
           onChange={(e) => setManagerBatchSize(e.target.value)}
-          className="send-email-input"
+          className="batch-size-input"
           min="1"
         />
-      </label>
+      </div>
+     
 
       {/* Manager Section - Cooldown & Timer in One Row */}
       <div className="cooldown-row">
@@ -422,6 +426,7 @@ const SendEmailPage = () => {
         </button>
         <p className="send-email-message">{message2}</p>
       </div>
+      </div> 
     </div>
   );
 };

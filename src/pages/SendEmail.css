@@ -447,3 +447,27 @@ body {
       padding: 10px;
   }
 }
+
+
+.batch-size-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  background-color: #f4f4f4;
+}
+
+.batch-size-label {
+  margin-right: 10px;
+  font-weight: 800;
+}
+
+.batch-size-input {
+  border: 1px solid #ccc;
+  padding: 5px;
+  /* width: 70px; */
+  border-radius: 3px;
+  outline: none;
+}
