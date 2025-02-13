@@ -9,37 +9,44 @@ const UploadPage = () => {
   // Loader
   const [isUploading, setIsUploading] = useState(false);
 
+  const [validationErrors, setValidationErrors] = useState([]); // Store multiple validation errors
+
+
   const handleFileUpload = async (e) => {
     e.preventDefault();
     if (!file) {
-      setUploadMessage('Please select a file first.❌');
+      setUploadMessage('Please select a file first ❌');
       return;
     }
-
-    setIsUploading(true); // Show loader while uploading
-
+  
+    setIsUploading(true);
     const formData = new FormData();
     formData.append('file', file);
     const token = localStorage.getItem('token');
-
+  
     try {
       const response = await fetch('https://flipkartb.algoapp.in/api/bulk-upload', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
       });
-
+  
       const data = await response.json();
-      setUploadMessage(data.message);
+  
+      if (response.status === 400 && data.errors) {
+        setValidationErrors(data.errors);
+        setUploadMessage('Validation errors found ❌');
+      } else {
+        setValidationErrors([]);
+        setUploadMessage(data.message || 'Upload successful ✅');
+      }
     } catch (error) {
-      setUploadMessage('Failed to upload file.❌');
+      setUploadMessage('Failed to upload file ❌');
     } finally {
-      setIsUploading(false); // Hide loader after upload completes
+      setIsUploading(false);
     }
   };
-
+  
   return (
     <div className="upload-container">
       {isUploading && (
@@ -76,6 +83,25 @@ const UploadPage = () => {
 
       {/* Upload Response Message */}
       {uploadMessage && <div className="upload-message">{uploadMessage}</div>}
+
+{/* Display multiple validation errors */}
+{validationErrors.length > 0 && (
+  <div className="error-container">
+    <h3>Validation Errors:</h3>
+    <ul>
+      {validationErrors.map((err, index) => (
+        <li key={index}>
+          {err.row ? `Row ${err.row}: ` : ''} {err.error}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+    
+  
+
+
 
       {/* 📌 Instructions for user */}
       <div className="upload-instructions">
