@@ -90,9 +90,9 @@ const UploadPage = () => {
     <h3>Validation Errors:</h3>
     <ul>
       {validationErrors.map((err, index) => (
-        <li key={index}>
-          {err.row ? `Row ${err.row}: ` : ''} {err.error}
-        </li>
+      <li key={index}>
+      {err.row === 'Header Validation' ? `${err.error}` : `Row ${err.row}: ${err.error}`}
+    </li>    
       ))}
     </ul>
   </div>
