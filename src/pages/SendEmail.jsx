@@ -214,6 +214,10 @@ const SendEmailPage = () => {
   };
 
   const handleResetEmails = async () => {
+    if (!window.confirm("Warning: This will erase employee email sent flags and time details. Do you want to proceed?")) {
+      return;
+    }
+    
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -221,21 +225,17 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
-
+  
       if (response.ok) {
         setMessage("✅ Employee email statuses reset successfully.");
-
-        // Reset everything
         setLastEmployeeSentTime(null);
         setRemainingEmployeeTime("00:00:00");
         setCooldownEmployee(24);
-        setIsCooldownEmployeeEnabled(false); // Freeze cooldown after reset
-        // setIsCooldownManagerEnabled(false); // Ensure mutual exclusivity
+        setIsCooldownEmployeeEnabled(false);
         setEmployeeBatchSize(1400);
         setRemainingEmails("Loading...");
-
         setTimeout(fetchRemainingEmails, 1500);
       } else {
         setMessage("❌ Error resetting employee emails.");
@@ -244,8 +244,13 @@ const SendEmailPage = () => {
       setMessage("❌ Error resetting employee emails.");
     }
   };
+  
 
   const handleResetManagerEmails = async () => {
+    if (!window.confirm("Warning: This will erase manager email sent flags and time details. Do you want to proceed?")) {
+      return;
+    }
+  
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -253,21 +258,17 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
-
+  
       if (response.ok) {
         setMessage2("✅ Manager email statuses reset successfully.");
-
-        // Reset everything
         setLastManagerSentTime(null);
         setRemainingManagerTime("00:00:00");
         setCooldownManager(24);
-        setIsCooldownManagerEnabled(false); // Freeze cooldown after reset
-        // setIsCooldownEmployeeEnabled(false); // Ensure mutual exclusivity
+        setIsCooldownManagerEnabled(false);
         setManagerBatchSize(1400);
         setRemainingManagerEmails("Loading...");
-
         setTimeout(fetchRemainingManagerEmails, 1500);
       } else {
         setMessage2("❌ Error resetting manager emails.");
@@ -276,6 +277,7 @@ const SendEmailPage = () => {
       setMessage2("❌ Error resetting manager emails.");
     }
   };
+  
 
   return (
     <div className="send-email-container">
