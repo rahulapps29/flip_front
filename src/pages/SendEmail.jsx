@@ -135,7 +135,7 @@ const SendEmailPage = () => {
 
   const resetEmployeeCooldown = () => {
     handleOpenDialog(
-      "Warning: Last email trigger timer will be set to zero. Do you want to proceed?",
+      "Last email trigger timer will be set to zero. Do you want to proceed?",
       () => {
         setLastEmployeeSentTime(null);
         setRemainingEmployeeTime("00:00:00");
@@ -147,7 +147,7 @@ const SendEmailPage = () => {
 
   const resetManagerCooldown = () => {
     handleOpenDialog(
-      "Warning: Last email trigger timer will be set to zero. Do you want to proceed?",
+      "Last email trigger timer will be set to zero. Do you want to proceed?",
       () => {
         setLastManagerSentTime(null);
         setRemainingManagerTime("00:00:00");
@@ -235,7 +235,7 @@ const SendEmailPage = () => {
 
   const handleResetEmails = async () => {
     handleOpenDialog(
-      "Warning: This will erase employee email sent flags and time details. Do you want to proceed?",
+      "This will erase employee email sent flags and time details. Do you want to proceed?",
       async () => {
         try {
           const token = localStorage.getItem("token");
@@ -268,7 +268,7 @@ const SendEmailPage = () => {
 
   const handleResetManagerEmails = async () => {
     handleOpenDialog(
-      "Warning: This will erase manager email sent flags and time details. Do you want to proceed?",
+      "This will erase manager email sent flags and time details. Do you want to proceed?",
       async () => {
         try {
           const token = localStorage.getItem("token");
@@ -484,7 +484,7 @@ const SendEmailPage = () => {
             onClick={handleResetManagerEmails}
             className="send-email-reset-button"
           >
-            Reset Manger+Employee Email sent flags & timestamps
+            Reset Manger Email sent flags & timestamps
           </button>
           <p className="send-email-message">{message2}</p>
         </div>
