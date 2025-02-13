@@ -470,6 +470,24 @@ body {
   outline: none;
 }
 
+.reset-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important; /* Prevents hover scaling effect */
+  transition: none !important; /* Removes animation */
+  background-color: #d3d3d3 !important; /* Makes it look truly disabled */
+  color: #999 !important;
+}
+
+.reset-button:disabled {
+  background-color: #d3d3d3 !important; /* Lighter grey for disabled state */
+  cursor: not-allowed !important;
+  transform: none !important; /* Prevents hover scaling */
+  transition: none !important; /* Disables animation */
+  color: #999 !important;
+}
+
 
 
 #root > div > div > div:nth-child(4) > div.cooldown-row > div.timer-box > div > p:nth-child(1)  {

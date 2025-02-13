@@ -118,18 +118,24 @@ const SendEmailPage = () => {
   };
 
   const resetEmployeeCooldown = () => {
-    setLastEmployeeSentTime(null);
-    setRemainingEmployeeTime("00:00:00");
-    setCooldownEmployeeFixed(0);
-    setIsCooldownEmployeeEnabled(true); // Enable input after reset
+    if (window.confirm("Warning: Last email trigger timer will be set to zero. Do you want to proceed?")) {
+      setLastEmployeeSentTime(null);
+      setRemainingEmployeeTime("00:00:00");
+      setCooldownEmployeeFixed(0);
+      setIsCooldownEmployeeEnabled(true); // Enable input after reset
+    }
   };
+  
 
   const resetManagerCooldown = () => {
-    setLastManagerSentTime(null);
-    setRemainingManagerTime("00:00:00");
-    setCooldownManagerFixed(0);
-    setIsCooldownManagerEnabled(true); // Enable input after reset
+    if (window.confirm("Warning: Last email trigger timer will be set to zero. Do you want to proceed?")) {
+      setLastManagerSentTime(null);
+      setRemainingManagerTime("00:00:00");
+      setCooldownManagerFixed(0);
+      setIsCooldownManagerEnabled(true); // Enable input after reset
+    }
   };
+  
 
   const formatRemainingTime = (lastSentTime, cooldownHoursFixed) => {
     if (!lastSentTime || cooldownHoursFixed === 0) return "00:00:00";
@@ -329,9 +335,16 @@ const SendEmailPage = () => {
 
           <div className="timer-group">
             <p className="timer-text">{remainingEmployeeTime}</p>
-            <button onClick={resetEmployeeCooldown} className="reset-button">
-              Reset
-            </button>
+            <button 
+  onClick={resetEmployeeCooldown} 
+  className={`reset-button ${remainingEmployeeTime === "00:00:00" ? "disabled" : ""}`} 
+  disabled={remainingEmployeeTime === "00:00:00"}
+>
+  Reset
+</button>
+
+
+
           </div>
         </div>
       </div>
@@ -401,9 +414,16 @@ const SendEmailPage = () => {
 
           <div className="timer-group">
             <p className="timer-text">{remainingManagerTime}</p>
-            <button onClick={resetManagerCooldown} className="reset-button">
-              Reset
-            </button>
+            <button 
+  onClick={resetManagerCooldown} 
+  className={`reset-button ${remainingManagerTime === "00:00:00" ? "disabled" : ""}`} 
+  disabled={remainingManagerTime === "00:00:00"}
+>
+  Reset
+</button>
+
+
+
           </div>
         </div>
       </div>
