@@ -107,7 +107,7 @@ const UploadPage = () => {
       <div className="upload-instructions">
         <h2 className="instructions-title">📌 File Requirements:</h2>
         <p className="instructions-text">
-          Please upload a <strong>CSV file</strong> containing the following fields (all 23 fields must have headers, internetEmail and managerEmailId can not be blank and should be in proper meail format any other field may or may not have data, <strong>you can keep the last 10 fields as blank</strong>):
+          Please upload a <strong>CSV file</strong> containing the following fields (all 23 fields must have headers, 'internetEmail' and 'managerEmailId' fields can not be blank and should be in proper meail format any other field may or may not have data, <strong>you can keep the last 10 fields as blank</strong>):
 
 
 
