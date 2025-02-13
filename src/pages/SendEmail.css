@@ -382,6 +382,7 @@ body {
   border-radius: 6px;
   text-align: center;
   min-width: 130px;
+  margin-bottom: 0px;
 }
 
 .reset-button {
