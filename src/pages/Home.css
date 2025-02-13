@@ -131,7 +131,7 @@ body {
   margin-top: 25px;
   border-left: 5px solid #008080;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* 📌 Instruction Titles */

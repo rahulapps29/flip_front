@@ -1,0 +1,127 @@
+/* 🌟 Base Styling */
+.instructions-container {
+  max-width: 100%;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f4f7fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 84vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* 📌 Header */
+.instructions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 2px solid #004080;
+  margin-bottom: 20px;
+}
+
+.instructions-header h1 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #004080;
+  text-transform: uppercase;
+}
+
+/* 📖 Text */
+.instructions-text {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* 📑 Instruction Content */
+.instructions-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 15px;
+}
+
+/* 📌 Ordered List */
+.instructions-list {
+  list-style-type: decimal;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.instructions-list li {
+  font-size: 16px;
+  font-weight: bold;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.instructions-list ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.instructions-list ul li {
+  font-weight: normal;
+  color: #222;
+  font-size: 14px;
+  background: white;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border-left: 4px solid #0056b3;
+  transition: background 0.3s ease;
+}
+
+.instructions-list ul li:hover {
+  background: #e3f2fd;
+}
+
+/* 🔗 Back Link */
+.instructions-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-link {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0056b3;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #003366;
+  text-decoration: underline;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .instructions-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .instructions-header h1 {
+    font-size: 22px;
+  }
+
+  .instructions-text {
+    font-size: 15px;
+  }
+
+  .instructions-list li {
+    font-size: 14px;
+  }
+
+  .back-link {
+    font-size: 14px;
+  }
+}

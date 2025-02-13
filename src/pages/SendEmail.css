@@ -20,7 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* 📌 Header - Styled like Dashboard */
@@ -235,6 +235,27 @@ body {
   }
 }
 
+/* 📌 Styling for Instructions Link Next to Heading */
+.instructions-link {
+  font-size: 16px;
+  font-weight: normal;
+  margin-left: 0px;
+  color: #0066cc;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.instructions-link a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.instructions-link:hover {
+  opacity: 1;
+  text-decoration: none;
+  color: #004080;
+}
+
 
 /* 📌 Parent Container for Employee Cooldown & Timer - Same Row */
 .cooldown-row {
@@ -265,7 +286,7 @@ body {
   font-weight: bold;
   color: #004080;
   margin-bottom: 10px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* 📌 Cooldown Input & Freeze Button - Aligned & Matching Position */
@@ -444,17 +465,6 @@ body {
       font-size: 14px;
       padding: 10px;
   }
-}
-
-
-.batch-size-container {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-  width: fit-content;
-  background-color: #f4f4f4;
 }
 
 .batch-size-label {

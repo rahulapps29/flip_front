@@ -49,11 +49,9 @@
 
 /* ✅ Disabled Link (Current Page) */
 .disabled-link {
-  color: #7a869a; /* Muted grayish-blue */
+  color: #f4f7fc; /* Muted grayish-blue */
   pointer-events: none; /* Prevents clicks */
-  opacity: 0.6; /* Slightly faded */
-  cursor: default;
-  background: rgba(0, 64, 128, 0.05);
+  background: #004080;
   padding: 0.5rem 1rem;
   border-radius: 8px;
 }
@@ -78,17 +76,17 @@
 /* ✅ Responsive Design */
 @media (max-width: 768px) {
   .fancy-nav-bar {
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
   }
 
   .logout-button {
-      font-size: 1.5rem;
-      padding: 0.3rem;
+    font-size: 1.5rem;
+    padding: 0.3rem;
   }
 
   .fancy-nav-list {
-      gap: 1rem;
+    gap: 1rem;
   }
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import CustomDialog from "../../ui/CustomDialog";
 import "./SendEmail.css";
 
 const SendEmailPage = () => {
@@ -26,6 +27,11 @@ const SendEmailPage = () => {
 
   // Loader
   const [isLoading, setIsLoading] = useState(true);
+
+  // State for custom dialog
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogAction, setDialogAction] = useState(null);
 
   useEffect(() => {
     fetchAllData();
@@ -57,7 +63,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/remaining-emails",
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       const data = await response.json();
       setRemainingEmails(data.remaining);
@@ -73,7 +79,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/remaining-manager-emails",
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       const data = await response.json();
       setRemainingManagerEmails(data.remaining);
@@ -89,7 +95,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/max-email-times",
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       const data = await response.json();
       setLastEmployeeSentTime(data.lastEmailSentAt);
@@ -104,7 +110,7 @@ const SendEmailPage = () => {
       setRemainingEmployeeTime("00:00:00");
     } else {
       setRemainingEmployeeTime(
-        formatRemainingTime(lastEmployeeSentTime, cooldownEmployeeFixed),
+        formatRemainingTime(lastEmployeeSentTime, cooldownEmployeeFixed)
       );
     }
 
@@ -112,30 +118,44 @@ const SendEmailPage = () => {
       setRemainingManagerTime("00:00:00");
     } else {
       setRemainingManagerTime(
-        formatRemainingTime(lastManagerSentTime, cooldownManagerFixed),
+        formatRemainingTime(lastManagerSentTime, cooldownManagerFixed)
       );
     }
   };
 
-  const resetEmployeeCooldown = () => {
-    if (window.confirm("Warning: Last email trigger timer will be set to zero. Do you want to proceed?")) {
-      setLastEmployeeSentTime(null);
-      setRemainingEmployeeTime("00:00:00");
-      setCooldownEmployeeFixed(0);
-      setIsCooldownEmployeeEnabled(true); // Enable input after reset
-    }
+  // Function to handle confirmation dialogs
+  const handleOpenDialog = (message, action) => {
+    setDialogMessage(message);
+    setDialogAction(() => () => {
+      action();
+      setDialogOpen(false);
+    });
+    setDialogOpen(true);
   };
-  
+
+  const resetEmployeeCooldown = () => {
+    handleOpenDialog(
+      "Warning: Last email trigger timer will be set to zero. Do you want to proceed?",
+      () => {
+        setLastEmployeeSentTime(null);
+        setRemainingEmployeeTime("00:00:00");
+        setCooldownEmployeeFixed(0);
+        setIsCooldownEmployeeEnabled(true);
+      }
+    );
+  };
 
   const resetManagerCooldown = () => {
-    if (window.confirm("Warning: Last email trigger timer will be set to zero. Do you want to proceed?")) {
-      setLastManagerSentTime(null);
-      setRemainingManagerTime("00:00:00");
-      setCooldownManagerFixed(0);
-      setIsCooldownManagerEnabled(true); // Enable input after reset
-    }
+    handleOpenDialog(
+      "Warning: Last email trigger timer will be set to zero. Do you want to proceed?",
+      () => {
+        setLastManagerSentTime(null);
+        setRemainingManagerTime("00:00:00");
+        setCooldownManagerFixed(0);
+        setIsCooldownManagerEnabled(true);
+      }
+    );
   };
-  
 
   const formatRemainingTime = (lastSentTime, cooldownHoursFixed) => {
     if (!lastSentTime || cooldownHoursFixed === 0) return "00:00:00";
@@ -143,7 +163,7 @@ const SendEmailPage = () => {
     const lastSentDate = new Date(lastSentTime);
     const now = new Date();
     const cooldownEnd = new Date(
-      lastSentDate.getTime() + cooldownHoursFixed * 60 * 60 * 1000,
+      lastSentDate.getTime() + cooldownHoursFixed * 60 * 60 * 1000
     );
     const diff = cooldownEnd - now;
 
@@ -151,11 +171,11 @@ const SendEmailPage = () => {
 
     const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
     const minutes = String(
-      Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+      Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
     ).padStart(2, "0");
     const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(
       2,
-      "0",
+      "0"
     );
 
     return `${hours}:${minutes}:${seconds}`;
@@ -170,7 +190,7 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       const data = await response.json();
       setMessage(data.message);
@@ -196,7 +216,7 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       const data = await response.json();
       setMessage2(data.message);
@@ -214,241 +234,261 @@ const SendEmailPage = () => {
   };
 
   const handleResetEmails = async () => {
-    if (!window.confirm("Warning: This will erase employee email sent flags and time details. Do you want to proceed?")) {
-      return;
-    }
-    
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        "https://flipkartb.algoapp.in/api/reset-email-status",
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
+    handleOpenDialog(
+      "Warning: This will erase employee email sent flags and time details. Do you want to proceed?",
+      async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://flipkartb.algoapp.in/api/reset-email-status",
+            {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (response.ok) {
+            setMessage("✅ Employee email statuses reset successfully.");
+            setLastEmployeeSentTime(null);
+            setRemainingEmployeeTime("00:00:00");
+            setCooldownEmployee(24);
+            setIsCooldownEmployeeEnabled(false);
+            setEmployeeBatchSize(1400);
+            setRemainingEmails("Loading...");
+            setTimeout(fetchRemainingEmails, 1500);
+          } else {
+            setMessage("❌ Error resetting employee emails.");
+          }
+        } catch (error) {
+          setMessage("❌ Error resetting employee emails.");
         }
-      );
-  
-      if (response.ok) {
-        setMessage("✅ Employee email statuses reset successfully.");
-        setLastEmployeeSentTime(null);
-        setRemainingEmployeeTime("00:00:00");
-        setCooldownEmployee(24);
-        setIsCooldownEmployeeEnabled(false);
-        setEmployeeBatchSize(1400);
-        setRemainingEmails("Loading...");
-        setTimeout(fetchRemainingEmails, 1500);
-      } else {
-        setMessage("❌ Error resetting employee emails.");
       }
-    } catch (error) {
-      setMessage("❌ Error resetting employee emails.");
-    }
+    );
   };
-  
 
   const handleResetManagerEmails = async () => {
-    if (!window.confirm("Warning: This will erase manager email sent flags and time details. Do you want to proceed?")) {
-      return;
-    }
-  
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        "https://flipkartb.algoapp.in/api/reset-manager-email-status",
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
+    handleOpenDialog(
+      "Warning: This will erase manager email sent flags and time details. Do you want to proceed?",
+      async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://flipkartb.algoapp.in/api/reset-manager-email-status",
+            {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (response.ok) {
+            setMessage2("✅ Manager email statuses reset successfully.");
+            setLastManagerSentTime(null);
+            setRemainingManagerTime("00:00:00");
+            setCooldownManager(24);
+            setIsCooldownManagerEnabled(false);
+            setManagerBatchSize(1400);
+            setRemainingManagerEmails("Loading...");
+            setTimeout(fetchRemainingManagerEmails, 1500);
+          } else {
+            setMessage2("❌ Error resetting manager emails.");
+          }
+        } catch (error) {
+          setMessage2("❌ Error resetting manager emails.");
         }
-      );
-  
-      if (response.ok) {
-        setMessage2("✅ Manager email statuses reset successfully.");
-        setLastManagerSentTime(null);
-        setRemainingManagerTime("00:00:00");
-        setCooldownManager(24);
-        setIsCooldownManagerEnabled(false);
-        setManagerBatchSize(1400);
-        setRemainingManagerEmails("Loading...");
-        setTimeout(fetchRemainingManagerEmails, 1500);
-      } else {
-        setMessage2("❌ Error resetting manager emails.");
       }
-    } catch (error) {
-      setMessage2("❌ Error resetting manager emails.");
-    }
+    );
   };
-  
 
   return (
     <div className="send-email-container">
       <div className="send-email-header">
-        <h1>Send Emails Manually</h1>
+        <h1>
+          Send Emails Manually{" "}
+          <span className="instructions-link">
+            (<Link to="/instructions">Read Instructions</Link>)
+          </span>
+        </h1>
       </div>
       <p className="mb-4">
         Use this page to send emails to employees and managers in batches.
       </p>
-      <Link to="/instructions" className="text-blue-600 hover:underline">
-        📖 Read Instructions
-      </Link>
+
+      {/* Custom Dialog for Confirmation */}
+      <CustomDialog
+        isOpen={dialogOpen}
+        title="Confirmation Required"
+        message={dialogMessage}
+        confirmText="Yes"
+        cancelText="No"
+        onConfirm={dialogAction}
+        onCancel={() => setDialogOpen(false)}
+      />
+
       <div className="cooldown-box">
-      <h3>Employee</h3>
-      <div className="batch-size-container">
-        <label className="batch-size-label">Batch Size:</label>
-        <input
-          type="number"
-          value={employeeBatchSize}
-          onChange={(e) => setEmployeeBatchSize(e.target.value)}
-          className="batch-size-input"
-          min="1"
-        />
-      </div>
+        <h3>Employee</h3>
 
-      {/* Employee Section - Cooldown & Timer in One Row */}
-      <div className="cooldown-row">
-        {/* Employee Cooldown Box */}
-        <div className="cooldown-box">
-          {/* <h3>Employee Cooldown</h3> */}
+        {/* Employee Section - Cooldown & Timer in One Row */}
+        <div className="cooldown-row">
+          <div className="cooldown-box">
+            <div className="cooldown-group">
+              <label className="batch-size-label">Batch Size:</label>
+              <input
+                type="number"
+                value={employeeBatchSize}
+                onChange={(e) => setEmployeeBatchSize(e.target.value)}
+                className="batch-size-input"
+                min="1"
+              />
+            </div>
+          </div>
+          {/* Employee Cooldown Box */}
+          <div className="cooldown-box">
+            <div className="cooldown-group">
+              <label>Cooldown (Hours):</label>
+              <input
+                type="number"
+                value={cooldownEmployee}
+                onChange={(e) =>
+                  setCooldownEmployee(
+                    Math.max(0, parseInt(e.target.value) || 0)
+                  )
+                }
+                min="0"
+                disabled={!isCooldownEmployeeEnabled}
+              />
+              <button
+                className="freeze-button"
+                onClick={() =>
+                  setIsCooldownEmployeeEnabled(!isCooldownEmployeeEnabled)
+                }
+              >
+                {isCooldownEmployeeEnabled ? "Freeze" : "Unfreeze"}
+              </button>
+            </div>
+          </div>
 
-          <div className="cooldown-group">
-            <label>Cooldown (Hours):</label>
-            <input
-              type="number"
-              value={cooldownEmployee}
-              onChange={(e) =>
-                setCooldownEmployee(Math.max(0, parseInt(e.target.value) || 0))
-              }
-              min="0"
-              disabled={!isCooldownEmployeeEnabled}
-            />
-            <button
-              className="freeze-button"
-              onClick={() =>
-                setIsCooldownEmployeeEnabled(!isCooldownEmployeeEnabled)
-              }
-            >
-              {isCooldownEmployeeEnabled ? "Freeze" : "Unfreeze"}
-            </button>
+          {/* Employee Timer Box */}
+          <div className="timer-box">
+            {/* <h3>Employee Timer</h3> */}
+
+            <div className="timer-group">
+              <p className="timer-text">{remainingEmployeeTime}</p>
+              <button
+                onClick={resetEmployeeCooldown}
+                className={`reset-button ${
+                  remainingEmployeeTime === "00:00:00" ? "disabled" : ""
+                }`}
+                disabled={remainingEmployeeTime === "00:00:00"}
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Employee Timer Box */}
-        <div className="timer-box">
-          {/* <h3>Employee Timer</h3> */}
-
-          <div className="timer-group">
-            <p className="timer-text">{remainingEmployeeTime}</p>
-            <button 
-  onClick={resetEmployeeCooldown} 
-  className={`reset-button ${remainingEmployeeTime === "00:00:00" ? "disabled" : ""}`} 
-  disabled={remainingEmployeeTime === "00:00:00"}
->
-  Reset
-</button>
-
-
-
-          </div>
+        <p>Remaining Employee Emails: {remainingEmails ?? "Loading..."}</p>
+        <div className="send-email-buttons">
+          <button
+            onClick={handleSendEmails}
+            className="send-email-button"
+            disabled={remainingEmployeeTime !== "00:00:00"}
+          >
+            {isSending ? "Sending..." : `Send ${employeeBatchSize} Emails`}
+          </button>
+          <button
+            onClick={handleResetEmails}
+            className="send-email-reset-button"
+          >
+            Reset Employee Email sent flags & timestamps
+          </button>
+          <p className="send-email-message">{message}</p>
         </div>
-      </div>
-
-      <p>Remaining Employee Emails: {remainingEmails ?? "Loading..."}</p>
-      <div className="send-email-buttons">
-        <button
-          onClick={handleSendEmails}
-          className="send-email-button"
-          disabled={remainingEmployeeTime !== "00:00:00"}
-        >
-          {isSending ? "Sending..." : `Send ${employeeBatchSize} Emails`}
-        </button>
-        <button onClick={handleResetEmails} className="send-email-reset-button">
-          Reset Employee Email sent flags & timestamps
-        </button>
-        <p className="send-email-message">{message}</p>
-      </div>
       </div>
       <hr />
 
       <div className="cooldown-box">
-      <h3>Manager</h3>
-      <div className="batch-size-container">
-        <label className="batch-size-label">Batch Size:</label>
-        <input
-          type="number"
-          value={managerBatchSize}
-          onChange={(e) => setManagerBatchSize(e.target.value)}
-          className="batch-size-input"
-          min="1"
-        />
-      </div>
-     
+        <h3>Manager</h3>
 
-      {/* Manager Section - Cooldown & Timer in One Row */}
-      <div className="cooldown-row">
-        {/* Manager Cooldown Box */}
-        <div className="cooldown-box">
-          {/* <h3>Manager Cooldown</h3> */}
+        {/* Manager Section - Cooldown & Timer in One Row */}
+        <div className="cooldown-row">
+          <div className="cooldown-box">
+            <div className="cooldown-group">
+              <label className="batch-size-label">Batch Size:</label>
+              <input
+                type="number"
+                value={managerBatchSize}
+                onChange={(e) => setManagerBatchSize(e.target.value)}
+                className="batch-size-input"
+                min="1"
+              />
+            </div>
+          </div>
+          {/* Manager Cooldown Box */}
+          <div className="cooldown-box">
+            <div className="cooldown-group">
+              <label>Cooldown (Hours):</label>
+              <input
+                type="number"
+                value={cooldownManager}
+                onChange={(e) =>
+                  setCooldownManager(Math.max(0, parseInt(e.target.value) || 0))
+                }
+                min="0"
+                disabled={!isCooldownManagerEnabled}
+              />
+              <button
+                className="freeze-button"
+                onClick={() =>
+                  setIsCooldownManagerEnabled(!isCooldownManagerEnabled)
+                }
+              >
+                {isCooldownManagerEnabled ? "Freeze" : "Unfreeze"}
+              </button>
+            </div>
+          </div>
 
-          <div className="cooldown-group">
-            <label>Cooldown (Hours):</label>
-            <input
-              type="number"
-              value={cooldownManager}
-              onChange={(e) =>
-                setCooldownManager(Math.max(0, parseInt(e.target.value) || 0))
-              }
-              min="0"
-              disabled={!isCooldownManagerEnabled}
-            />
-            <button
-              className="freeze-button"
-              onClick={() =>
-                setIsCooldownManagerEnabled(!isCooldownManagerEnabled)
-              }
-            >
-              {isCooldownManagerEnabled ? "Freeze" : "Unfreeze"}
-            </button>
+          {/* Manager Timer Box */}
+          <div className="timer-box">
+            {/* <h3>Manager Timer</h3> */}
+
+            <div className="timer-group">
+              <p className="timer-text">{remainingManagerTime}</p>
+              <button
+                onClick={resetManagerCooldown}
+                className={`reset-button ${
+                  remainingManagerTime === "00:00:00" ? "disabled" : ""
+                }`}
+                disabled={remainingManagerTime === "00:00:00"}
+              >
+                Reset
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Manager Timer Box */}
-        <div className="timer-box">
-          {/* <h3>Manager Timer</h3> */}
+        <p>
+          Remaining Manager Emails: {remainingManagerEmails ?? "Loading..."}
+        </p>
 
-          <div className="timer-group">
-            <p className="timer-text">{remainingManagerTime}</p>
-            <button 
-  onClick={resetManagerCooldown} 
-  className={`reset-button ${remainingManagerTime === "00:00:00" ? "disabled" : ""}`} 
-  disabled={remainingManagerTime === "00:00:00"}
->
-  Reset
-</button>
-
-
-
-          </div>
+        <div className="send-email-buttons">
+          <button
+            onClick={handleSendEmailsToManagers}
+            className="send-email-button"
+            disabled={remainingManagerTime !== "00:00:00"}
+          >
+            {isSendingManagers
+              ? "Sending..."
+              : `Send ${managerBatchSize} Emails`}
+          </button>
+          <button
+            onClick={handleResetManagerEmails}
+            className="send-email-reset-button"
+          >
+            Reset Manger+Employee Email sent flags & timestamps
+          </button>
+          <p className="send-email-message">{message2}</p>
         </div>
       </div>
-
-      <p>Remaining Manager Emails: {remainingManagerEmails ?? "Loading..."}</p>
-
-      <div className="send-email-buttons">
-        <button
-          onClick={handleSendEmailsToManagers}
-          className="send-email-button"
-          disabled={remainingManagerTime !== "00:00:00"}
-        >
-          {isSendingManagers ? "Sending..." : `Send ${managerBatchSize} Emails`}
-        </button>
-        <button
-          onClick={handleResetManagerEmails}
-          className="send-email-reset-button"
-        >
-           Reset Manger+Employee Email sent flags & timestamps
-        </button>
-        <p className="send-email-message">{message2}</p>
-      </div>
-      </div> 
     </div>
   );
 };
