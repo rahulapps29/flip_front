@@ -239,7 +239,7 @@ body {
 /* 📌 Parent Container for Employee Cooldown & Timer - Same Row */
 .cooldown-row {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
   flex-wrap: wrap; /* Ensures responsiveness */
   align-items: stretch; /* Ensures equal height */
@@ -248,7 +248,7 @@ body {
 /* 📌 Individual Box for Cooldown Input & Timer */
 .cooldown-box, .timer-box {
   flex: 1;
-  min-width: 320px; /* Ensures responsiveness */
+  /* min-width: 320px; Ensures responsiveness */
   background: #f9f9f9;
   border: 1px solid #d1d9e6;
   padding: 15px;
@@ -273,7 +273,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .cooldown-group label {
@@ -282,7 +282,7 @@ body {
 }
 
 .cooldown-group input {
-  flex-grow: 1; /* Allows input to take space */
+  flex-grow: 1; 
   padding: 6px;
   border: 2px solid #ccd4e0;
   border-radius: 6px;
