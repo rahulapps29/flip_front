@@ -135,7 +135,7 @@ const SendEmailPage = () => {
 
   const resetEmployeeCooldown = () => {
     handleOpenDialog(
-      "Last email trigger timer will be set to zero. Do you want to proceed?",
+     "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
       () => {
         setLastEmployeeSentTime(null);
         setRemainingEmployeeTime("00:00:00");
@@ -147,7 +147,7 @@ const SendEmailPage = () => {
 
   const resetManagerCooldown = () => {
     handleOpenDialog(
-      "Last email trigger timer will be set to zero. Do you want to proceed?",
+     "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
       () => {
         setLastManagerSentTime(null);
         setRemainingManagerTime("00:00:00");
