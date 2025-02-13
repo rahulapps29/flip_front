@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import UploadPage from './pages/Home';
+import UploadPage from './pages/Upload';
 import SendEmailPage from './pages/SendEmail';
 import Dashboard from './pages/Dashboard';
 import FormPage from './pages/FormPage';

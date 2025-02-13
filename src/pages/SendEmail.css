@@ -23,6 +23,27 @@ body {
   overflow-y: auto;
 }
 
+/* 📌 Scrollbar Customization */
+.send-email-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.send-email-container::-webkit-scrollbar-track {
+  background: #dde7f0;
+  border-radius: 5px;
+}
+
+.send-email-container::-webkit-scrollbar-thumb {
+  background: #008080;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.send-email-container::-webkit-scrollbar-thumb:hover {
+  background: #006666;
+  box-shadow: 0 0 8px rgba(0, 128, 128, 0.4);
+}
+
 /* 📌 Header - Styled like Dashboard */
 .send-email-header {
   display: flex;

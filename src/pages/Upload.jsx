@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Home.css'; // Import the new CSS file
+import './Upload.css'; // Import the new CSS file
 import Loader from '../../ui/Loader';
 
 const UploadPage = () => {
@@ -18,21 +18,21 @@ const UploadPage = () => {
       setUploadMessage('Please select a file first ❌');
       return;
     }
-  
+
     setIsUploading(true);
     const formData = new FormData();
     formData.append('file', file);
     const token = localStorage.getItem('token');
-  
+
     try {
       const response = await fetch('https://flipkartb.algoapp.in/api/bulk-upload', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
       });
-  
+
       const data = await response.json();
-  
+
       if (response.status === 400 && data.errors) {
         setValidationErrors(data.errors);
         setUploadMessage('Validation errors found ❌');
@@ -46,7 +46,7 @@ const UploadPage = () => {
       setIsUploading(false);
     }
   };
-  
+
   return (
     <div className="upload-container">
       {isUploading && (
@@ -84,22 +84,19 @@ const UploadPage = () => {
       {/* Upload Response Message */}
       {uploadMessage && <div className="upload-message">{uploadMessage}</div>}
 
-{/* Display multiple validation errors */}
-{validationErrors.length > 0 && (
-  <div className="error-container">
-    <h3>Validation Errors:</h3>
-    <ul>
-      {validationErrors.map((err, index) => (
-      <li key={index}>
-      {err.row === 'Header Validation' ? `${err.error}` : `Row ${err.row}: ${err.error}`}
-    </li>    
-      ))}
-    </ul>
-  </div>
-)}
-
-    
-  
+      {/* Display multiple validation errors */}
+      {validationErrors.length > 0 && (
+        <div className="error-container">
+          <h3>Validation Errors:</h3>
+          <ul>
+            {validationErrors.map((err, index) => (
+              <li key={index}>
+                {err.row === 'Header Validation' ? `${err.error}` : `Row ${err.row}: ${err.error}`}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
 
 
@@ -108,9 +105,6 @@ const UploadPage = () => {
         <h2 className="instructions-title">📌 File Requirements:</h2>
         <p className="instructions-text">
           Please upload a <strong>CSV file</strong> containing the following fields (all 23 fields must have headers, 'internetEmail' and 'managerEmailId' fields can not be blank and should be in proper meail format any other field may or may not have data.<br /> <strong>You can keep the last 10 fields as blank.</strong>
-
-
-
 
           <br />
           <strong> You may use any file name of your choice for the CSV file.</strong>
