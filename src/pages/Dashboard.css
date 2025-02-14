@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f4f7fc;
   color: #004080;
   margin: 0;
@@ -127,7 +127,9 @@ body {
   justify-content: space-between;
   gap: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   max-width: 100%;
   overflow: hidden;
   white-space: nowrap; /* Prevents text wrapping */
@@ -159,7 +161,9 @@ body {
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,14 +196,17 @@ body {
   z-index: 10;
 }
 
-.page-btn, .page-number {
+.page-btn,
+.page-number {
   padding: 10px 14px;
   background: #0056b3;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .page-btn:hover,
@@ -292,7 +299,9 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .modal-close:hover {
@@ -315,7 +324,9 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .btn-edit:hover {
@@ -413,7 +424,9 @@ td input:focus {
   border-radius: 6px;
   cursor: pointer;
   margin-top: 15px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   align-self: center;
 }
 
@@ -442,7 +455,6 @@ td input:focus {
     font-size: 16px;
   }
 }
-
 
 /* Welcome Page Styling */
 .welcome-container {
@@ -508,7 +520,9 @@ td input:focus {
   font-weight: bold;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease-in-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

@@ -1,10 +1,13 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import './Login.css';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import "./Login.css";
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState(null);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -13,21 +16,24 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://flipkartb.algoapp.in/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      });
+      const response = await fetch(
+        "https://flipkartb.algoapp.in/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        },
+      );
 
       if (response.ok) {
         const data = await response.json();
         login(data.token);
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
-        setError('Invalid credentials');
+        setError("Invalid credentials");
       }
     } catch (err) {
-      setError('Login failed');
+      setError("Login failed");
     }
   };
 
@@ -35,10 +41,11 @@ const Login = () => {
     <div className="login-container">
       <div className="card">
         <h1>
-        Asset Compliance <span className="bold">Console</span>
+          Asset Compliance <span className="bold">Console</span>
         </h1>
         <p>
-        A comprehensive tool for verifying, tracking, and reconciling laptop serial numbers to ensure asset compliance and accuracy.
+          A comprehensive tool for verifying, tracking, and reconciling laptop
+          serial numbers to ensure asset compliance and accuracy.
         </p>
 
         <div className="separator">
@@ -59,7 +66,9 @@ const Login = () => {
               name="username"
               autoComplete="username"
               value={credentials.username}
-              onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+              onChange={(e) =>
+                setCredentials({ ...credentials, username: e.target.value })
+              }
               type="text"
               placeholder="Enter your username"
               required
@@ -73,7 +82,9 @@ const Login = () => {
               name="password"
               autoComplete="current-password"
               value={credentials.password}
-              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
               type="password"
               placeholder="Enter your password"
               required
@@ -81,7 +92,9 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <button type="submit" className="login-button">Login</button>
+            <button type="submit" className="login-button">
+              Login
+            </button>
           </div>
         </form>
       </div>

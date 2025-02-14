@@ -1,7 +1,16 @@
 import React from "react";
 import "./CustomDialog.css"; // Import the CSS file
 
-const CustomDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmText, cancelText, type }) => {
+const CustomDialog = ({
+  isOpen,
+  title,
+  message,
+  onConfirm,
+  onCancel,
+  confirmText,
+  cancelText,
+  type,
+}) => {
   if (!isOpen) return null;
 
   return (

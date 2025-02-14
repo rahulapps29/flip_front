@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
-import CustomDialog from './CustomDialog';
-import AuthContext from '../src/context/AuthContext';
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import CustomDialog from "./CustomDialog";
+import AuthContext from "../src/context/AuthContext";
 import "./Navbar.css";
 
 const NavigationBar = () => {
@@ -20,15 +20,15 @@ const NavigationBar = () => {
     setIsLogoutDialogOpen(false); // Close dialog first
     setTimeout(() => {
       logout();
-      navigate('/login');
+      navigate("/login");
     }, 300); // Delay ensures dialog closes smoothly
   };
 
   // Navigation Items
   const navItems = [
-    { path: '/upload', label: 'Upload CSV' },
-    { path: '/send-email', label: 'Send Emails' },
-    { path: '/dashboard', label: 'Dashboard' },
+    { path: "/upload", label: "Upload CSV" },
+    { path: "/send-email", label: "Send Emails" },
+    { path: "/dashboard", label: "Dashboard" },
   ];
 
   return (
@@ -40,14 +40,20 @@ const NavigationBar = () => {
               // Disable the button for the current page
               <span className="fancy-nav-link disabled-link">{item.label}</span>
             ) : (
-              <Link to={item.path} className="fancy-nav-link">{item.label}</Link>
+              <Link to={item.path} className="fancy-nav-link">
+                {item.label}
+              </Link>
             )}
           </li>
         ))}
       </ul>
 
       {isAuthenticated && (
-        <button onClick={handleLogoutClick} className="logout-button" title="Logout">
+        <button
+          onClick={handleLogoutClick}
+          className="logout-button"
+          title="Logout"
+        >
           <FontAwesomeIcon icon={faPowerOff} />
         </button>
       )}

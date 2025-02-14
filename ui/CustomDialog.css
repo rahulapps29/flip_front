@@ -16,7 +16,11 @@
 
 /* Dialog Box */
 .dialog-box {
-  background: linear-gradient(135deg, #f4f7fc, #e8f0fe); /* Soft gradient for depth */
+  background: linear-gradient(
+    135deg,
+    #f4f7fc,
+    #e8f0fe
+  ); /* Soft gradient for depth */
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -25,7 +29,7 @@
   text-align: center;
   border: none;
   position: relative;
-  animation: fadeIn 0.4s ease-in-out; 
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 /* Title */
@@ -67,7 +71,9 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
   box-shadow: 0 3px 8px rgba(0, 86, 179, 0.2);
   display: flex;
   align-items: center;
@@ -91,7 +97,9 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
   box-shadow: 0 3px 8px rgba(179, 47, 47, 0.2);
   display: flex;
   align-items: center;
@@ -111,8 +119,6 @@
   font-size: 22px;
 }
 
-
-
 /* Close Icon */
 .close-icon {
   position: absolute;
@@ -121,7 +127,9 @@
   font-size: 20px;
   color: #666;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .close-icon:hover {

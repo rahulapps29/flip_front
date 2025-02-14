@@ -7,7 +7,7 @@
   border: 1px solid #d1d9e6; /* Light Grayish Blue for borders */
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Form Title */
@@ -44,7 +44,9 @@
   border: 1px solid #d1d9e6;
   border-radius: 6px;
   background-color: white;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   font-size: 14px;
 }
 

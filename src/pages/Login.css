@@ -67,9 +67,15 @@ p {
   position: absolute;
 }
 
-.dot-1 { right: -8px; }
-.dot-2 { right: -16px; }
-.dot-3 { right: -24px; }
+.dot-1 {
+  right: -8px;
+}
+.dot-2 {
+  right: -16px;
+}
+.dot-3 {
+  right: -24px;
+}
 
 .form-group {
   display: flex;
@@ -117,7 +123,10 @@ p {
   cursor: pointer;
   color: white;
   font-weight: bold;
-  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition:
+    background 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
 }
 
 .login-button:hover {
@@ -137,14 +146,14 @@ p {
 
 @media screen and (max-width: 768px) {
   .logo {
-      top: 10px;
-      left: 10px;
-      width: 50px;
+    top: 10px;
+    left: 10px;
+    width: 50px;
   }
 
   .card {
-      width: 90%;
-      left: 5%;
-      bottom: 20px;
+    width: 90%;
+    left: 5%;
+    bottom: 20px;
   }
 }

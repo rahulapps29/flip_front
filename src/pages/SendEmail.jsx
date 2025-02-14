@@ -63,7 +63,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/remaining-emails",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await response.json();
       setRemainingEmails(data.remaining);
@@ -79,7 +79,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/remaining-manager-emails",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await response.json();
       setRemainingManagerEmails(data.remaining);
@@ -95,7 +95,7 @@ const SendEmailPage = () => {
         "https://flipkartb.algoapp.in/api/max-email-times",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await response.json();
       setLastEmployeeSentTime(data.lastEmailSentAt);
@@ -110,7 +110,7 @@ const SendEmailPage = () => {
       setRemainingEmployeeTime("00:00:00");
     } else {
       setRemainingEmployeeTime(
-        formatRemainingTime(lastEmployeeSentTime, cooldownEmployeeFixed)
+        formatRemainingTime(lastEmployeeSentTime, cooldownEmployeeFixed),
       );
     }
 
@@ -118,7 +118,7 @@ const SendEmailPage = () => {
       setRemainingManagerTime("00:00:00");
     } else {
       setRemainingManagerTime(
-        formatRemainingTime(lastManagerSentTime, cooldownManagerFixed)
+        formatRemainingTime(lastManagerSentTime, cooldownManagerFixed),
       );
     }
   };
@@ -135,25 +135,25 @@ const SendEmailPage = () => {
 
   const resetEmployeeCooldown = () => {
     handleOpenDialog(
-     "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
+      "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
       () => {
         setLastEmployeeSentTime(null);
         setRemainingEmployeeTime("00:00:00");
         setCooldownEmployeeFixed(0);
         setIsCooldownEmployeeEnabled(true);
-      }
+      },
     );
   };
 
   const resetManagerCooldown = () => {
     handleOpenDialog(
-     "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
+      "This will temporarily reset the timer, letting you send your next batch immediately.Refresh page or press F5 to restore the timer. Proceed?",
       () => {
         setLastManagerSentTime(null);
         setRemainingManagerTime("00:00:00");
         setCooldownManagerFixed(0);
         setIsCooldownManagerEnabled(true);
-      }
+      },
     );
   };
 
@@ -163,7 +163,7 @@ const SendEmailPage = () => {
     const lastSentDate = new Date(lastSentTime);
     const now = new Date();
     const cooldownEnd = new Date(
-      lastSentDate.getTime() + cooldownHoursFixed * 60 * 60 * 1000
+      lastSentDate.getTime() + cooldownHoursFixed * 60 * 60 * 1000,
     );
     const diff = cooldownEnd - now;
 
@@ -171,11 +171,11 @@ const SendEmailPage = () => {
 
     const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
     const minutes = String(
-      Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
     ).padStart(2, "0");
     const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(
       2,
-      "0"
+      "0",
     );
 
     return `${hours}:${minutes}:${seconds}`;
@@ -190,7 +190,7 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await response.json();
       setMessage(data.message);
@@ -216,7 +216,7 @@ const SendEmailPage = () => {
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await response.json();
       setMessage2(data.message);
@@ -244,7 +244,7 @@ const SendEmailPage = () => {
             {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           if (response.ok) {
@@ -262,7 +262,7 @@ const SendEmailPage = () => {
         } catch (error) {
           setMessage("❌ Error resetting employee emails.");
         }
-      }
+      },
     );
   };
 
@@ -277,7 +277,7 @@ const SendEmailPage = () => {
             {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           if (response.ok) {
@@ -295,7 +295,7 @@ const SendEmailPage = () => {
         } catch (error) {
           setMessage2("❌ Error resetting manager emails.");
         }
-      }
+      },
     );
   };
 
@@ -350,7 +350,7 @@ const SendEmailPage = () => {
                 value={cooldownEmployee}
                 onChange={(e) =>
                   setCooldownEmployee(
-                    Math.max(0, parseInt(e.target.value) || 0)
+                    Math.max(0, parseInt(e.target.value) || 0),
                   )
                 }
                 min="0"

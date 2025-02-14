@@ -1,42 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import './FormPage.css';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import "./FormPage.css";
 
 const FormPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get('token');
+  const token = queryParams.get("token");
 
   const [formData, setFormData] = useState([]);
-  const [employeeData, setEmployeeData] = useState({ name: '', email: '' });
-  const [message, setMessage] = useState('');
+  const [employeeData, setEmployeeData] = useState({ name: "", email: "" });
+  const [message, setMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await fetch(`https://flipkartb.algoapp.in/api/form?token=${token}`);
+        const response = await fetch(
+          `https://flipkartb.algoapp.in/api/form?token=${token}`,
+        );
         const data = await response.json();
 
         if (data.email && data.name) {
           setEmployeeData({ name: data.name, email: data.email });
 
-          const assetResponse = await fetch(`https://flipkartb.algoapp.in/api/employee-assets?token=${token}`);
+          const assetResponse = await fetch(
+            `https://flipkartb.algoapp.in/api/employee-assets?token=${token}`,
+          );
           const { assetCount } = await assetResponse.json();
 
           const initializedData = Array.from({ length: assetCount }, () => ({
-            serialNumber: '',
-            assetConditionEntered: '',
-            manufacturerNameEntered: '',
-            modelVersionEntered: '',
+            serialNumber: "",
+            assetConditionEntered: "",
+            manufacturerNameEntered: "",
+            modelVersionEntered: "",
           }));
 
           setFormData(initializedData);
         } else {
-          setMessage('Invalid or expired link.');
+          setMessage("Invalid or expired link.");
         }
       } catch (error) {
-        setMessage('Error fetching data.');
+        setMessage("Error fetching data.");
       }
     };
 
@@ -55,22 +59,25 @@ const FormPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://flipkartb.algoapp.in/api/submit-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          token,
-          formDetails: formData,
-        }),
-      });
+      const response = await fetch(
+        "https://flipkartb.algoapp.in/api/submit-form",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token,
+            formDetails: formData,
+          }),
+        },
+      );
 
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        setMessage('An error occurred while submitting the form.');
+        setMessage("An error occurred while submitting the form.");
       }
     } catch (error) {
-      setMessage('Error submitting the form.');
+      setMessage("Error submitting the form.");
     }
   };
 
@@ -112,11 +119,15 @@ const FormPage = () => {
               <h3>Asset {index + 1}</h3>
 
               <div className="form-group">
-                <label>Serial Number: <span className="required">*</span></label>
+                <label>
+                  Serial Number: <span className="required">*</span>
+                </label>
                 <input
                   type="text"
                   value={asset.serialNumber}
-                  onChange={(e) => handleInputChange(index, 'serialNumber', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(index, "serialNumber", e.target.value)
+                  }
                   className="form-input"
                   required
                   placeholder="Enter Serial Number"
@@ -124,11 +135,19 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Asset Condition: <span className="required">*</span></label>
+                <label>
+                  Asset Condition: <span className="required">*</span>
+                </label>
                 <select
                   className="form-input"
                   value={asset.assetConditionEntered}
-                  onChange={(e) => handleInputChange(index, 'assetConditionEntered', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(
+                      index,
+                      "assetConditionEntered",
+                      e.target.value,
+                    )
+                  }
                   required
                 >
                   <option value="">Select Asset Condition</option>
@@ -140,11 +159,19 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Manufacturer Name: <span className="required">*</span></label>
+                <label>
+                  Manufacturer Name: <span className="required">*</span>
+                </label>
                 <select
                   className="form-input"
                   value={asset.manufacturerNameEntered}
-                  onChange={(e) => handleInputChange(index, 'manufacturerNameEntered', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(
+                      index,
+                      "manufacturerNameEntered",
+                      e.target.value,
+                    )
+                  }
                   required
                 >
                   <option value="">Select Manufacturer Name</option>
@@ -157,11 +184,19 @@ const FormPage = () => {
               </div>
 
               <div className="form-group">
-                <label>Model Version: <span className="required">*</span></label>
+                <label>
+                  Model Version: <span className="required">*</span>
+                </label>
                 <input
                   type="text"
                   value={asset.modelVersionEntered}
-                  onChange={(e) => handleInputChange(index, 'modelVersionEntered', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(
+                      index,
+                      "modelVersionEntered",
+                      e.target.value,
+                    )
+                  }
                   className="form-input"
                   required
                   placeholder="Enter Model Version"
